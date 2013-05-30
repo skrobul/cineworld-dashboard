@@ -1,0 +1,3 @@
+== Welcome
+
+This application is for my personal use - mainly to check which movies they play in Cineworld today. Feel free to adapt it for your use

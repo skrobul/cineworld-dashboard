@@ -1,0 +1,10 @@
+<h1>Upcoming Movies</h1>
+<% @movies.each do |cinema, movies| %>
+<h3><%= cinema %></h3>
+<ul>
+	<% movies.each do |title, performances| %>
+		<li><%= title %> at: <%= performances.join(', ') %></li>
+	<% end %>
+</ul>
+
+<% end %>
