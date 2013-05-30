@@ -21,7 +21,7 @@ class CineChecker
 		seconds_to_midnight = 60 * 60 * 24 - DateTime.now.seconds_since_midnight
 		interesting_cinemas.each do |cinema|
 			begin
-				csymbol = Rails.cache.fetch("cached_cinemas", :expires_in => 100.days) do
+				csymbol = Rails.cache.fetch("cached_cinema_#{cinema}", :expires_in => 100.days) do
 					@c.cinemas({ :cinema => cinema })['cinemas'][0]['name']
 				end
 			rescue NoMethodError
@@ -29,14 +29,14 @@ class CineChecker
 			end
 			out[csymbol] = {}
 			# get list of EDIs played on particular date
-			films =  Rails.cache.fetch("cached_films", :expires_in => seconds_to_midnight) do 
+			films =  Rails.cache.fetch("cached_films_#{cinema}", :expires_in => seconds_to_midnight) do 
 				@c.films({ :cinema => cinema, :date => today })['films']
 			end
 
 			films.each do |film|
 				# from 'films' we need to resolve actual performances based on the EDI
 				edi = film['edi']
-				performances = Rails.cache.fetch("cached_performances", :expires_in => seconds_to_midnight) do
+				performances = Rails.cache.fetch("cached_performances_#{cinema}_#{film}", :expires_in => seconds_to_midnight) do
 					@c.performances({ :cinema => cinema, :film => edi, :date => today})['performances']
 				end
 				performances.each do |perf|
