@@ -1,14 +1,5 @@
 
 
-set :rvm_ruby_string, "ruby-1.9.3-p392@cinecheck"              # use the same ruby as used locally for deployment
-set :rvm_autolibs_flag, "read-only"        # more info: rvm help autolibs
-
-before 'deploy:setup', 'rvm:install_rvm'   # install RVM
-before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, OR:
-before 'deploy:setup', 'rvm:create_gemset' # only create gemset
-
-require "rvm/capistrano"
-
 require "bundler/capistrano"
 
 set :scm,             :git
@@ -98,7 +89,7 @@ namespace :deploy do
       mkdir -p #{latest_release}/tmp &&
       ln -s #{shared_path}/log #{latest_release}/log &&
       ln -s #{shared_path}/system #{latest_release}/public/system &&
-      ln -s #{shared_path}/pids #{latest_release}/tmp/pids &&
+      ln -s #{shared_path}/tmp/pids #{latest_release}/tmp/pids &&
       ln -sf #{shared_path}/database.yml #{latest_release}/config/database.yml
     CMD
 
