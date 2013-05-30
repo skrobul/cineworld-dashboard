@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 require 'cineworld'
-require 'time'
 require 'json'
 require 'pp'
+require 'active_support/core_ext'
 
 class CineChecker
 	SOME_CINEMAS = {
@@ -33,8 +33,10 @@ class CineChecker
 				edi = film['edi']
 				performances = @c.performances({ :cinema => cinema, :film => edi, :date => today})['performances']
 				performances.each do |perf|
+					london_time = DateTime.now.in_time_zone("Europe/London")
 					perfdate = DateTime.strptime(perf['time'], "%H:%M")
-					if perfdate > DateTime.now
+					perfdate -= 1.hour if london_time.dst?
+					if perfdate > (london_time - mins.to_i.minutes)
 						out[csymbol][film['title']] = Array.new unless out.has_key?(film['title'])
 						out[csymbol][film['title']] << perf['time']
 					end
