@@ -30,7 +30,7 @@ class CineChecker
 			out[csymbol] = {}
 			# get list of EDIs played on particular date
 			films =  Rails.cache.fetch("cached_films_#{cinema}", :expires_in => seconds_to_midnight) do 
-				@c.films({ :cinema => cinema, :date => today })['films']
+				@c.films({ :cinema => cinema, :date => today, :full => true })['films']
 			end
 
 			films.each do |film|
@@ -44,8 +44,8 @@ class CineChecker
 					perfdate = DateTime.strptime(perf['time'], "%H:%M")
 					perfdate -= 1.hour if london_time.dst?
 					if perfdate > (london_time - mins.to_i.minutes)
-						out[csymbol][film['title']] = Array.new unless out[csymbol].has_key?(film['title'])
-						out[csymbol][film['title']] << perf['time']
+						out[csymbol][film] = Array.new unless out[csymbol].has_key?(film)
+						out[csymbol][film] << perf['time']
 					end
 				end
 			end

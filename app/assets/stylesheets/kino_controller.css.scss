@@ -1,3 +1,27 @@
 // Place all the styles related to the KinoController controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+li {    
+    list-style-type: none;
+    margin-bottom:  15px;
+ }
+img { 
+    margin-right: 10px; 
+    vertical-align: middle;  
+}
+a { color: #166293 }
+a:visited { color: #07588C }
+h3 { color: #297EB5 }
+body { font-family: Helvetica }
+
+//    .primary-1 { background-color: #0A67A3 }
+//    .primary-2 { background-color: #166293 }
+//    .primary-3 { background-color: #07588C }
+//    .primary-4 { background-color: #1C79B5 }
+//    .primary-5 { background-color: #297EB5 }
+//    
+//    .complement-1 { background-color: #FF8E00 }
+//    .complement-2 { background-color: #E68A17 }
+//    .complement-3 { background-color: #DB7A00 }
+//    .complement-4 { background-color: #FF9A19 }
+//    .complement-5 { background-color: #FFA32E }

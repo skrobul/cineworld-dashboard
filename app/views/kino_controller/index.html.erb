@@ -1,10 +1,14 @@
 <h1>Upcoming Movies</h1>
 <% @movies.each do |cinema, movies| %>
-<h3><%= cinema %></h3>
+<a href="#<%= cinema %>"><%= cinema %> </a><br>
+<% end %>
+<hr>
+<% @movies.each do |cinema, movies| %>
+<h3 id="<%= cinema %>"><%= cinema %></h3>
 	<ul>
 		<% if ! movies.empty? %>
-			<% movies.each do |title, performances| %>
-				<li><%= title %> at: <%= performances.join(', ') %></li>
+			<% movies.each do |m, performances| %>
+		      <li><a href="<%= m['film_url'] %>"><img src="<%= m['poster_url'] %>"/><%= m['title'] %></a> <strong> <%= performances.join(', ') %></strong></li>
 
 			<% end %>
 		<% else %>
