@@ -1,19 +1,38 @@
-<h1>Upcoming Movies</h1>
+<div class="row">
+    <h1>Upcoming Movies</h1>
+</div>
+
 <% @movies.each do |cinema, movies| %>
-<a href="#<%= cinema %>"><%= cinema %> </a><br>
+        <div class="row">
+            <a href="#<%= cinema %>"><%= cinema %> </a>
+        </div>
 <% end %>
+
+
 <hr>
 <% @movies.each do |cinema, movies| %>
-<h3 id="<%= cinema %>"><%= cinema %></h3>
-	<ul>
-		<% if ! movies.empty? %>
-			<% movies.each do |m, performances| %>
-		      <li><a href="<%= m['film_url'] %>"><img src="<%= m['poster_url'] %>"/><%= m['title'] %></a> <strong> <%= performances.join(', ') %></strong></li>
+<div class="row">
+    <h3 id="<%= cinema %>"><%= cinema %></h3>
+</div>
+	
+        		<% if ! movies.empty? %>
+		<% movies.each do |m, performances| %>
+                            <div class="row film">
+		      <div class="col-md-2 col-xs-4">
+                                    <a href="<%= m['film_url'] %>"><img src="<%= m['poster_url'] %>"/></a>
+                                </div>
+                                <div class="col-md-10 col-xs-8">
+                                    <a href="<%= m['film_url'] %>"><h4><%= m['title'] %></h4></a>
+                                    <p>
+                                     <%= performances.join(', ') %>
+                                    </p>
+                                </div>
+                            </div>
 
 			<% end %>
 		<% else %>
 			 <p>There are no more performances for today in this cinema.</p>
 		<% end %>
-	</ul>
+	
 
 <% end %>
