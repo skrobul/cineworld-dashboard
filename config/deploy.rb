@@ -16,7 +16,7 @@ set :group,           "staff"
 set :use_sudo,        false
 
 
-server 'cloud.skrobul.com', :app, :web, :db, :primary => true
+server 'kino.skrobul.com', :app, :web, :db, :primary => true
 
 
 set(:latest_release)  { fetch(:current_path) }
