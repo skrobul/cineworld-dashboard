@@ -14,6 +14,7 @@ set :user,            "deployer"
 set :group,           "staff"
 set :use_sudo,        false
 set :whenever_command, "bundle exec whenever"
+set :application,     "cinecheck"
 require "whenever/capistrano"
 
 server 'kino.skrobul.com', :app, :web, :db, :primary => true
