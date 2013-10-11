@@ -42,3 +42,5 @@ gem 'rvm-capistrano'
 gem 'whenever', :require => false
 # To use debugger
 # gem 'debugger'
+gem 'imdb'
+gem 'pry-rails', :groups => [:development]

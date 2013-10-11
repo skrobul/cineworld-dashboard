@@ -15,7 +15,7 @@ class CineChecker
 		@c = Cineworld::API.new(key)
 	end
 
-	def films_in_next_minutes(mins=60, interesting_cinemas=DEFAULT_INTERESTING_CINEMAS)
+	def films_in_next_minutes(mins=10, interesting_cinemas=DEFAULT_INTERESTING_CINEMAS)
 		today = DateTime.now.in_time_zone("Europe/London").strftime("%Y%m%d")
 		out = {}
 		seconds_to_midnight = 60 * 60 * 24 - DateTime.now.in_time_zone("Europe/London").seconds_since_midnight

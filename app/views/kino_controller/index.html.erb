@@ -3,8 +3,10 @@
 </div>
 
 <% @movies.each do |cinema, movies| %>
-        <div class="row">
-            <a href="#<%= cinema %>"><%= cinema %> </a>
+        <div class="row btn-group">
+            <div class="col-md-10">
+            <a class="btn btn-default" href="#<%= cinema %>"><%= cinema.gsub("London - ", "") %> </a>
+            </div>
         </div>
 <% end %>
 
@@ -24,7 +26,16 @@
                                 <div class="col-md-10 col-xs-8">
                                     <a href="<%= m['film_url'] %>"><h4><%= m['title'] %></h4></a>
                                     <p>
-                                     <%= performances.join(', ') %>
+                                     <b><%= performances.join(', ') %></b>
+                                    </p>
+                                    <% unless @film_descriptions[m['title']].nil? %>
+                                        <% desc = @film_descriptions[m['title']] %>
+                                        <p><%= desc[:plot] %></p>
+                                        <p>
+                                        Languages: <%= desc[:languages].join(", ") %>. Director: <%= desc[:director].join(", ") %>.
+                                        Genre: <%= desc[:genres].join("/") %>
+                                        </p>
+                                    <% end %>
                                     </p>
                                 </div>
                             </div>
