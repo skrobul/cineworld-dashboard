@@ -28,7 +28,7 @@
                                     <p>
                                      <b><%= performances.join(', ') %></b>
                                     </p>
-                                    <% unless @film_descriptions[m['title']].nil? %>
+                                    <% unless @film_descriptions.nil? or @film_descriptions[m['title']].nil? %>
                                         <% desc = @film_descriptions[m['title']] %>
                                         <p><%= desc[:plot] %></p>
                                         <p>
