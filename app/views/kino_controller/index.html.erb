@@ -1,13 +1,9 @@
 
-
-<% @movies.each do |cinema, movies| %>
-        <div class="row btn-group">
-            <div class="col-md-10">
-            <a class="btn btn-default" href="#<%= cinema %>"><%= cinema.gsub("London - ", "") %> </a>
-            </div>
-        </div>
+<%= content_for(:menu_items) do %>
+    <% @movies.each do |cinema, movies| %>
+                <li><a href="#<%= cinema %>"><%= cinema.gsub("London - ", "") %> </a></li>
+    <% end %>
 <% end %>
-
 
 <% @movies.each do |cinema, movies| %>
 <div class="row">
@@ -16,7 +12,7 @@
 	
         		<% if ! movies.empty? %>
 		<% movies.each do |m, performances| %>
-                            <div class="row film">
+                            <div class="row film <%= cycle('odd', 'even') %>">
 		      <div class="col-md-2 col-xs-4">
                                     <a href="<%= m['film_url'] %>"><img src="<%= m['poster_url'] %>"/></a>
                                 </div>
