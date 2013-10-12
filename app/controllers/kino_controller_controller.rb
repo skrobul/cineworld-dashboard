@@ -1,6 +1,5 @@
 require 'cinecheck'
 require 'yaml'
-require 'pry'
 
 class KinoControllerController < ApplicationController
 
