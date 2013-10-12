@@ -6,3 +6,9 @@ jQuery ->
         $(@).parent().hide()
         $(@).parent().next().fadeIn()
     )
+
+# workaround for collapsed navbar
+$(document).on('click','.navbar-collapse.in', (e) -> 
+    if $(e.target).is('a')  
+        $(this).removeClass('in').addClass('collapse')
+)
