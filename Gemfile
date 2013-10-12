@@ -21,8 +21,6 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 
-
-  gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',   :github => 'anjlab/bootstrap-rails'
 end
 
 gem 'jquery-rails'
@@ -44,3 +42,5 @@ gem 'whenever', :require => false
 # gem 'debugger'
 gem 'imdb'
 gem 'pry-rails', :groups => [:development]
+gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
+                              :github => 'anjlab/bootstrap-rails'

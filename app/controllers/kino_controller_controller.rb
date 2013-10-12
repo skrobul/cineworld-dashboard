@@ -17,7 +17,7 @@ class KinoControllerController < ApplicationController
             @film_descriptions[title] ||= Rails.cache.fetch("cached_movie_desc_#{title}", :expires_in => 2.days) do 
                 ret = {}
                 imdb_info = lookup_movie_plot(title) or return nil
-                [:plot, :languages, :director, :genres].each do |attrib|
+                [:plot, :languages, :director, :genres, :url, :length, :rating, :plot_summary].each do |attrib|
                     ret[attrib] = imdb_info.send(attrib)
                 end
                 ret

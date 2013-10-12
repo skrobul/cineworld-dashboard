@@ -1,6 +1,4 @@
-<div class="row">
-    <h1>Upcoming Movies</h1>
-</div>
+
 
 <% @movies.each do |cinema, movies| %>
         <div class="row btn-group">
@@ -11,7 +9,6 @@
 <% end %>
 
 
-<hr>
 <% @movies.each do |cinema, movies| %>
 <div class="row">
     <h3 id="<%= cinema %>"><%= cinema %></h3>
@@ -24,16 +21,21 @@
                                     <a href="<%= m['film_url'] %>"><img src="<%= m['poster_url'] %>"/></a>
                                 </div>
                                 <div class="col-md-10 col-xs-8">
-                                    <a href="<%= m['film_url'] %>"><h4><%= m['title'] %></h4></a>
+                                    <a href="<%= m['film_url'] %>"><span class="filmtitle"><%= m['title'] %></span></a>
+                                        <% unless @film_descriptions.nil? or @film_descriptions[m['title']].nil? %>
+                                            <%= @film_descriptions[m['title']][:length] %> min
+                                        <% end %>
+                                    
                                     <p>
                                      <b><%= performances.join(', ') %></b>
                                     </p>
                                     <% unless @film_descriptions.nil? or @film_descriptions[m['title']].nil? %>
                                         <% desc = @film_descriptions[m['title']] %>
-                                        <p><%= desc[:plot] %></p>
+                                        <p><%= desc[:plot] %>  <button class="btn btn-sm btn-primary show_full_plot">...more</button></p>
+                                        <p class="full_plot"><%= desc[:plot_summary] %></p>
                                         <p>
-                                        Languages: <%= desc[:languages].join(", ") %>. Director: <%= desc[:director].join(", ") %>.
-                                        Genre: <%= desc[:genres].join("/") %>
+                                        <b>Languages:</b> <%= desc[:languages].join(", ") %> <b>Director:</b> <%= desc[:director].join(", ") %>
+                                        <b>Genre:</b> <%= desc[:genres].join("/") %> 
                                         </p>
                                     <% end %>
                                     </p>
