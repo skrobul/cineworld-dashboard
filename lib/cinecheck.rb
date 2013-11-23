@@ -9,7 +9,7 @@ class CineChecker
 		:hammersmith => 30,
 		:feltham => 25
 	}
-	DEFAULT_INTERESTING_CINEMAS = [25, 30, 65, 60] #Hammersmith, Feltham
+	DEFAULT_INTERESTING_CINEMAS = [89, 25, 30, 65, 60] #Hammersmith, Feltham
 
 	def initialize(key)
 		@c = Cineworld::API.new(key)
