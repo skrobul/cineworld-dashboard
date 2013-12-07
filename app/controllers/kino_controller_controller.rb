@@ -6,7 +6,7 @@ class KinoControllerController < ApplicationController
   def lookup_movie_plot(title)
     Imdb::Search.new(title).movies.first
   end
-  def index
+  def oldindex
   	cineworld_api_key = YAML::load(File.open("#{Rails.root}/config/api.yml"))["cineworld_api_key"]
   	chdl = CineChecker.new(cineworld_api_key)
   	@movies = chdl.films_in_next_minutes
@@ -24,5 +24,9 @@ class KinoControllerController < ApplicationController
             end
         end
     end
+  end
+
+  def index
+    @cinemas = Cinema.where(id: ObservedCinema.all.map(&:cinema_id))
   end
 end

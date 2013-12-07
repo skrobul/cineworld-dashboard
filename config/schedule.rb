@@ -19,5 +19,5 @@
 
 # Learn more: http://github.com/javan/whenever
 every :day, :at => "12:01am" do
-    rake "pull_from_cineworld"
+    rake "cineworld:performances"
 end

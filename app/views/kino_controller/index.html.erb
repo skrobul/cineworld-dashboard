@@ -1,47 +1,35 @@
 
 <%= content_for(:menu_items) do %>
-    <% @movies.each do |cinema, movies| %>
-                <li><a href="#<%= cinema %>"><%= cinema.gsub("London - ", "") %> </a></li>
+    <% @cinemas.each do |cinema| %>
+                <li><a href="#<%= cinema %>"><%= cinema.name.gsub("London - ", "") %> </a></li>
     <% end %>
 <% end %>
 
-<% @movies.each do |cinema, movies| %>
-<div class="row">
-    <h3 id="<%= cinema %>"><%= cinema %></h3>
-</div>
-	
-        		<% if ! movies.empty? %>
-		<% movies.each do |m, performances| %>
-                            <div class="row film <%= cycle('odd', 'even') %>">
-		      <div class="col-md-2 col-xs-4">
-                                    <a href="<%= m['film_url'] %>"><img src="<%= m['poster_url'] %>"/></a>
-                                </div>
-                                <div class="col-md-10 col-xs-8">
-                                    <a href="<%= m['film_url'] %>"><span class="filmtitle"><%= m['title'] %></span></a>
-                                        <% unless @film_descriptions.nil? or @film_descriptions[m['title']].nil? %>
-                                            <%= @film_descriptions[m['title']][:length] %> min
-                                        <% end %>
-                                    
-                                    <p>
-                                     <b><%= performances.join(', ') %></b>
-                                    </p>
-                                    <% unless @film_descriptions.nil? or @film_descriptions[m['title']].nil? %>
-                                        <% desc = @film_descriptions[m['title']] %>
-                                        <p><%= desc[:plot] %>  <button class="btn btn-sm btn-primary show_full_plot">...more</button></p>
-                                        <p class="full_plot"><%= desc[:plot_summary] %></p>
+<% @cinemas.each do |cinema| %>
+    <div class="row">
+        <h3 id="<%= cinema %>"><%= cinema %></h3>
+    </div>
+
+	<% cinema.films.each do |film| %>
+        <% unless film.performances.empty? %>
+            <div class="row film <%= cycle('odd', 'even') %>">
+    		      <div class="col-md-2 col-xs-4">
+                                        <a href="<%= film.film_url %>"><img src="<%= film.poster_url %>"/></a>
+                                    </div>
+                                    <div class="col-md-10 col-xs-8">
+                                        <a href="<%= film.film_url %>"><span class="filmtitle"><%= film.title %></span></a>
+                                         <%# film descriptions should go here %>
                                         <p>
-                                        <b>Languages:</b> <%= desc[:languages].join(", ") %> <b>Director:</b> <%= desc[:director].join(", ") %>
-                                        <b>Genre:</b> <%= desc[:genres].join("/") %> 
-                                        </p>
-                                    <% end %>
-                                    </p>
+                                         <% film.performances.each do |performance| %>
+                                            <%= link_to performance.short_time, performance.booking_url, :class => "badge" %>
+                                         <% end %>
+                                         </p>
+                                    </div>
                                 </div>
-                            </div>
 
-			<% end %>
-		<% else %>
-			 <p>There are no more performances for today in this cinema.</p>
-		<% end %>
+    	<% else %>
+    		 <p>There are no more performances for today in this cinema.</p>
+    	<% end %>
+    <% end %>
 	
-
 <% end %>
