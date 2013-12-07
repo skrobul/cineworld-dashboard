@@ -9,9 +9,10 @@
     <div class="row">
         <h3 id="<%= cinema %>"><%= cinema %></h3>
     </div>
-
-	<% cinema.films.each do |film| %>
-        <% unless film.performances.empty? %>
+    
+    <% unless cinema.performances.current.empty? %>
+	   <% cinema.films.each do |film| %>
+        
             <div class="row film <%= cycle('odd', 'even') %>">
     		      <div class="col-md-2 col-xs-4">
                                         <a href="<%= film.film_url %>"><img src="<%= film.poster_url %>"/></a>
@@ -26,10 +27,10 @@
                                          </p>
                                     </div>
                                 </div>
+        <% end %>
 
-    	<% else %>
+    <% else %>
     		 <p>There are no more performances for today in this cinema.</p>
-    	<% end %>
     <% end %>
 	
 <% end %>
