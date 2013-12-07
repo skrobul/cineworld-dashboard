@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  film: 
+  plot: MyText
+  languages: MyString
+  director: MyString
+  genres: MyString
+  url: MyString
+  length: 1
+  rating: 1.5
+  plot_summary: MyText
+
+two:
+  film: 
+  plot: MyText
+  languages: MyString
+  director: MyString
+  genres: MyString
+  url: MyString
+  length: 1
+  rating: 1.5
+  plot_summary: MyText
