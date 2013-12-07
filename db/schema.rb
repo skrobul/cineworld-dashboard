@@ -11,6 +11,40 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20131207211325) do
+
+  create_table "cinemas", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "films", :force => true do |t|
+    t.integer  "edi"
+    t.string   "title"
+    t.integer  "cineworld_film_id"
+    t.string   "poster_url"
+    t.string   "still_url"
+    t.string   "film_url"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "cinema_id"
+  end
+
+  create_table "observed_cinemas", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "cinema_id"
+  end
+
+  create_table "performances", :force => true do |t|
+    t.integer  "film_id"
+    t.integer  "cinema_id"
+    t.string   "performance_type"
+    t.string   "booking_url"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.datetime "time"
+  end
 
 end

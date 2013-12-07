@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  edi: 1
+  title: MyString
+  cineworld_film_id: 1
+  poster_url: MyString
+  still_url: MyString
+  film_url: MyString
+  date: 1
+
+two:
+  edi: 1
+  title: MyString
+  cineworld_film_id: 1
+  poster_url: MyString
+  still_url: MyString
+  film_url: MyString
+  date: 1

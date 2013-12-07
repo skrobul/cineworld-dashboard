@@ -1,4 +1,13 @@
 Kino::Application.routes.draw do
+  resources :performances
+
+
+  resources :films
+
+
+  resources :cinemas
+
+
   get "kino_controller/index"
 
   # The priority is based upon order of creation:
