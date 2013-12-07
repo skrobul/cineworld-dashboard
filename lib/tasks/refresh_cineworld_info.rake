@@ -60,7 +60,6 @@ namespace :cineworld do
                 :date => today
             )['performances']
             cperformances.each do |perf|
-                puts "Processing: #{perf}"
                 cperf = Performance.where(
                     :film_id => film.id,
                     :cinema_id => film.cinema,
