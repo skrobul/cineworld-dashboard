@@ -3,8 +3,10 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery -> 
     $(".show_full_plot").click(->
-        $(@).parent().hide()
-        $(@).parent().next().fadeIn()
+        $(@).parent().find(".short_plot").hide()
+        $(@).hide()
+        $(@).parent().find(".full_plot").fadeIn()
+        console.log($(@).parent().find(".full_plot"))
     )
     $(".trailer_modal").on('show.bs.modal', (e) ->
         trailer_url = $(@).data('trailer-url')
