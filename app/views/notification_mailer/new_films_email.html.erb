@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Good news! Sa nowe filmy:</h1>
+    <% @films.each do |film| %>
+      <h4><%= film.title %></h4>
+      <% if film.review %>
+        <p><img src="<%= film.poster_url %>"><%= film.review.plot %></p>
+      <% end %>
+      <p>wyswietlany w: <%= film.cinemas.join(", ") %></p>
+    <% end %>
+    <p>Zapraszam na <a href="http://kino.skrobul.com/">kino.skrobul.com</a> po wiecej info.</p>
+  </body>
+</html>
