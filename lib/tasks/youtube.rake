@@ -12,7 +12,7 @@ namespace :youtube do
         force_download = ENV['FORCE'] or false
         reviews = force_download ? Review.all : Review.where(youtube_html: nil)
         reviews.each do |review|
-            title = review.film.title
+            title = review.film.title.gsub(/\A(2|3)D - /, '')
             puts "Searching for trailer: #{title}"
             video = @youtube.videos_by(:query => "#{title} trailer", :max_results => 1).videos.first
             review.youtube_html = video.embed_html5(

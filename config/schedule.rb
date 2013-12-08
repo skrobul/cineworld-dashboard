@@ -20,8 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 every :day, :at => "12:01am" do
     rake "cineworld:performances"
+    rake "imdb:download"
+    rake "youtube:download_trailers"
 end
 
-every :day, :at => "12:30am" do
-    rake "imdb:download"
-end
