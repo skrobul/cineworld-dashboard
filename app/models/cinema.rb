@@ -4,6 +4,10 @@ class Cinema < ActiveRecord::Base
   has_many :performances
 
   def to_s
-    "#{self.name}"
+    "#{self.short_name}"
+  end
+
+  def short_name
+    name.gsub("London - ", '')
   end
 end

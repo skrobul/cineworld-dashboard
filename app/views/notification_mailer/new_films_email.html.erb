@@ -6,11 +6,16 @@
   <body>
     <h1>Good news! Sa nowe filmy:</h1>
     <% @films.each do |film| %>
-      <h4><%= film.title %></h4>
-      <% if film.review %>
-        <p><img src="<%= film.poster_url %>"><%= film.review.plot %></p>
-      <% end %>
-      <p>wyswietlany w: <%= film.cinemas.join(", ") %></p>
+      <div style="min-height: 140px; margin-top: 20px; clear: both;">
+        <% if film.review %>
+          <img align="left" style="padding: 5px;" src="<%= film.poster_url %>"/>
+          <h3><%= film.title %></h3>
+          <p><%= film.review.plot %></p>
+        <% else %>
+          <h3><%= film.title %></h3>
+        <% end %>
+        <p>wyswietlany w: <%= film.cinemas.join(", ") %></p>
+      </div>
     <% end %>
     <p>Zapraszam na <a href="http://kino.skrobul.com/">kino.skrobul.com</a> po wiecej info.</p>
   </body>
