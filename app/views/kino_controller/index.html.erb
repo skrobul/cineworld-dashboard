@@ -21,7 +21,7 @@
                                         <a href="<%= film.film_url %>"><span class="filmtitle"><%= film.title %></span></a>
                                          <%# film descriptions should go here %>
                                         <p>
-                                         <% cinema.performances.current.where(film_id: film.id).each do |performance| %>
+                                         <% cinema.performances.currently_for_film(film.id).each do |performance| %>
                                             <%= link_to performance.short_time, performance.booking_url, :class => "badge" %>
                                          <% end %>
                                          </p>

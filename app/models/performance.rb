@@ -4,7 +4,8 @@ class Performance < ActiveRecord::Base
   belongs_to :cinema
 
   scope :current, -> { where("time >= ?", 30.minutes.ago )}
-
+  scope :currently_for_film, -> (film_id) { current.where(film_id: film_id) }
+  
   def short_time
     "%02d:%02d" % [time.hour, time.min]
   end
