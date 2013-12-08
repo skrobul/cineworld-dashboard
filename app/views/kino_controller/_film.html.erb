@@ -17,18 +17,31 @@
                  </p>
                  <% if film.review %>
                      <div class="review">
-                        <p class="short_plot"><%= film.review.plot %></p>
+                        <p class="short_plot"><%= film.review.plot %>
+                          <% unless film.review.plot_summary.nil? %>
+                            <button class="btn btn-default btn-xs show_full_plot">...more</button>
+                          <% end %>
+                        </p>
                         <% unless film.review.plot_summary.nil? %>
-                            <span class="btn btn-default btn-xs show_full_plot">...more</span>
                             
-                            <p class="full_plot">
-                                <%= sanitize film.review.plot_summary %>
-                            </p>
-                            <p class="full_plot">
-                            Languages: <%= film.review.languages %>
-                            Director: <%= film.review.director %>
-                            Genre: <%= film.review.genres %>
-                            </p>
+                            <div class="row">
+                              <div class="still col-md-6" data-still-url="<%= film.still_url %>">
+                                <img></img>
+                              </div>
+                              <div class="col-md-6">
+                                <p class="full_plot">
+                                    <%= sanitize film.review.plot_summary %>
+                                </p>
+                                <p class="full_plot">
+                                Languages: <%= film.review.languages %>
+                                Director: <%= film.review.director %>
+                                Genre: <%= film.review.genres %>
+                                </p>
+                                <p>
+                                  <button class="btn btn-default btn-xs hide_full_plot">...less</button>
+                                </p>
+                              </div>
+                            </div>
                         <% end %>
                         <%= render partial: "trailer", locals: { :film => film } %>
                         <%= link_to "IMDB", film.review.url, :class => "btn btn-default btn-xs" %> 
