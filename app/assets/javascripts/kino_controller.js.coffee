@@ -9,7 +9,6 @@ jQuery ->
     $(".trailer_modal").on('show.bs.modal', (e) ->
         trailer_url = $(@).data('trailer-url')
         modal_body = $(@).find(".modal-body").html(trailer_url)
-        console.log(modal_body)
     )
     $(".trailer_modal").on("hidden.bs.modal", (e) ->
         $(@).find(".modal-body").html('empty')
