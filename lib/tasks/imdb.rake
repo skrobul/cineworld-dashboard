@@ -5,6 +5,7 @@ namespace :imdb do
             parsed_title = film.title.gsub(/\A(2|3)D - /, '')
             puts "Searching for: #{parsed_title}" 
             i = Imdb::Search.new(parsed_title).movies.first or next
+            plot_summary = i.plot_summary && i.plot_summary.gsub('href="', 'href="http://www.imdb.com')
             Review.create(
                 plot: i.plot,
                 film: film,
@@ -13,8 +14,8 @@ namespace :imdb do
                 url: i.url,
                 length: i.length,
                 rating: i.rating,
-                plot_summary: i.plot_summary,
-                trailer_url: i.trailer_url
+                plot_summary: plot_summary,
+                trailer_url:  i.trailer_url
                 )
             puts "Review for #{film.title} downloadded"
         end
