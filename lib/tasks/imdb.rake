@@ -13,7 +13,8 @@ namespace :imdb do
                 url: i.url,
                 length: i.length,
                 rating: i.rating,
-                plot_summary: i.plot_summary
+                plot_summary: i.plot_summary,
+                trailer_url: i.trailer_url
                 )
             puts "Review for #{film.title} downloadded"
         end
