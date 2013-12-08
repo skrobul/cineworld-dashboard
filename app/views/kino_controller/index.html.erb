@@ -39,17 +39,9 @@
                                 </div>
                                 <p class="full_plot">
                                     <%= sanitize film.review.plot_summary %>
-                              
                                 </p>
                             <% end %>
                             <%= link_to "IMDB", film.review.url, :class => "btn btn-default btn-xs" %> 
-                            <% if film.review.trailer_url %> 
-                                <%= link_to "Trailer", film.review.trailer_url, {
-                                        :class => "btn btn-default btn-xs",
-                                        :target => "_blank" 
-                                        } %>
-                            <% end %> 
-                            
                          <p>
                     <% end %>
 

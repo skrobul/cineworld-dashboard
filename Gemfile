@@ -41,6 +41,7 @@ gem 'whenever', :require => false
 # To use debugger
 # gem 'debugger'
 gem 'imdb'
+gem 'youtube_it'
 gem 'pry-rails', :groups => [:development]
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
                               :github => 'anjlab/bootstrap-rails'

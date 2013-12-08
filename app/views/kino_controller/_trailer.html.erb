@@ -1,10 +1,8 @@
 <!-- Button trigger modal -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#film_<%= film.id %>">
-  Launch demo modal
-</button>
+<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#film_<%= film.id %>">Trailer</button>
 
 <!-- Modal -->
-<div class="modal fade trailer_modal" id="film_<%= film.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-trailer-url="<%= film.review.trailer_url %>">
+<div class="modal fade trailer_modal" id="film_<%= film.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-trailer-url="<%= film.review.youtube_html %>">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,15 +10,9 @@
         <h4 class="modal-title" ><%= film.title %></h4>
       </div>
       <div class="modal-body">
-       <!--
-       TODO: fix me
-       this will not work due to same-origin policy
-        <iframe src=""  style="zoom:0.60" width="99.6%" height="250" frameborder="0">...</iframe>
-        -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131208013636) do
+ActiveRecord::Schema.define(:version => 20131208120433) do
 
   create_table "cinemas", :force => true do |t|
     t.string   "name"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20131208013636) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "trailer_url"
+    t.text     "youtube_html"
   end
 
   add_index "reviews", ["film_id"], :name => "index_reviews_on_film_id"

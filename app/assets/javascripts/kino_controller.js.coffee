@@ -7,11 +7,12 @@ jQuery ->
         $(@).parent().next().fadeIn()
     )
     $(".trailer_modal").on('show.bs.modal', (e) ->
-        # TODO: fix me
-        #trailer_url = $(@).data('trailer-url')
-        #iframe = $(@).find(".modal-body iframe").attr('src', trailer_url)
-        #console.log(iframe)
-        #iframe.attr(src, trailer_url)
+        trailer_url = $(@).data('trailer-url')
+        modal_body = $(@).find(".modal-body").html(trailer_url)
+        console.log(modal_body)
+    )
+    $(".trailer_modal").on("hidden.bs.modal", (e) ->
+        $(@).find(".modal-body").html('empty')
     )
 
 # workaround for collapsed navbar

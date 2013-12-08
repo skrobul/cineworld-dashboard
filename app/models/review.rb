@@ -1,4 +1,4 @@
 class Review < ActiveRecord::Base
   belongs_to :film
-  attr_accessible :director, :genres, :languages, :length, :plot, :plot_summary, :rating, :url, :film, :trailer_url
+  attr_accessible :director, :genres, :languages, :length, :plot, :plot_summary, :rating, :url, :film, :trailer_url, :youtube_html
 end
