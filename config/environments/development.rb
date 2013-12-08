@@ -36,7 +36,7 @@ Kino::Application.configure do
   config.assets.debug = false
   
 
-  smtp_credentials = YAML::load_file("#{Rails.root}/config/smtp_credentials.yml"))
+  smtp_credentials = YAML::load_file("#{Rails.root}/config/smtp_credentials.yml")
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
