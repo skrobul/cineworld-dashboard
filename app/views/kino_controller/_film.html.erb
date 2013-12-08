@@ -1,0 +1,34 @@
+
+        <div class="row film <%= cycle('odd', 'even') %>">
+              <div class="col-md-2 col-xs-4">
+                    <a href="<%= film.film_url %>"><img src="<%= film.poster_url %>"/></a>
+              </div>
+            <div class="col-md-10 col-xs-8">
+                <a href="<%= film.film_url %>"><span class="filmtitle"><%= film.title %></span></a>
+                <% if film.review %>
+                    <span><%= film.review.length %>m</span>
+                <% end %>
+
+                 <%# film descriptions should go here %>
+                <p>
+                 <% cinema.performances.currently_for_film(film.id).each do |performance| %>
+                    <%= link_to performance.short_time, performance.booking_url, :class => "badge" %>
+                 <% end %>
+                 </p>
+                 <% if film.review %>
+                     <p class="review">
+                        <%= film.review.plot %>
+                        <% unless film.review.plot_summary.nil? %>
+                            <span class="btn btn-default btn-xs show_full_plot">...more</span>
+                            
+                            <p class="full_plot">
+                                <%= sanitize film.review.plot_summary %>
+                            </p>
+                        <% end %>
+                        <%= render partial: "trailer", locals: { :film => film } %>
+                        <%= link_to "IMDB", film.review.url, :class => "btn btn-default btn-xs" %> 
+                     <p>
+                <% end %>
+
+            </div>
+        </div>
