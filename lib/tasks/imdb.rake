@@ -6,6 +6,7 @@ namespace :imdb do
             puts "Searching for: #{parsed_title}" 
             i = Imdb::Search.new(parsed_title).movies.first or next
             Review.create(
+                plot: i.plot,
                 film: film,
                 director: i.director.join(","),
                 genres: i.genres.join(" / "),
