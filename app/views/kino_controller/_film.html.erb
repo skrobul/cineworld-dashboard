@@ -24,6 +24,11 @@
                             <p class="full_plot">
                                 <%= sanitize film.review.plot_summary %>
                             </p>
+                            <p class="full_plot">
+                            Languages: <%= film.review.languages %>
+                            Director: <%= film.review.director %>
+                            Genre: <%= film.review.genres %>
+                            </p>
                         <% end %>
                         <%= render partial: "trailer", locals: { :film => film } %>
                         <%= link_to "IMDB", film.review.url, :class => "btn btn-default btn-xs" %> 
