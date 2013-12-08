@@ -31,7 +31,18 @@ jQuery ->
     )
     $(".trailer_modal").on('show.bs.modal', (e) ->
         trailer_url = $(@).data('trailer-url')
-        modal_body = $(@).find(".modal-body").html(trailer_url)
+        frame = $(@).find(".modal-body iframe")
+        video_url = trailer_url + '?autoplay=1'
+        modal_dialog_width = $(@).find(".modal-dialog").width()
+        modal_dialog_height = $(@).find(".modal-dialog").height()
+        console.log("Modal width: " + modal_dialog_width)
+        frame.attr('src', video_url)
+        frame.attr('frameborder', 0)
+        frame.attr("width", modal_dialog_width - 50)
+        frame.attr("height", modal_dialog_height - 50)
+        frame.attr("type", "text/html")
+        frame.addClass("youtube-video")
+        modal_body = $(@).find(".modal-body").append(frame)
     )
     $(".trailer_modal").on("hidden.bs.modal", (e) ->
         $(@).find(".modal-body").html('empty')
