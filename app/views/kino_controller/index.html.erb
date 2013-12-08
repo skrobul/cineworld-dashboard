@@ -12,7 +12,7 @@
     
     <% unless cinema.performances.current.empty? %>
 	   <% cinema.films.each do |film| %>
-        
+            <% if cinema.performances.currently_for_film(film.id).length > 0 %>
             <div class="row film <%= cycle('odd', 'even') %>">
     		      <div class="col-md-2 col-xs-4">
                         <a href="<%= film.film_url %>"><img src="<%= film.poster_url %>"/></a>
@@ -46,6 +46,7 @@
 
                 </div>
             </div>
+            <% end %> 
         <% end %>
 
     <% else %>
