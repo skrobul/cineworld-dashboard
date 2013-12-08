@@ -34,6 +34,9 @@
                             <%= film.review.plot %>
                             <% unless film.review.plot_summary.nil? %>
                                 <span class="btn btn-default btn-xs show_full_plot">...more</span>
+                                <div>
+                                <%= render partial: "trailer", locals: { :film => film } %>
+                                </div>
                                 <p class="full_plot">
                                     <%= sanitize film.review.plot_summary %>
                               

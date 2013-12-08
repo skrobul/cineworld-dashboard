@@ -6,6 +6,13 @@ jQuery ->
         $(@).parent().hide()
         $(@).parent().next().fadeIn()
     )
+    $(".trailer_modal").on('show.bs.modal', (e) ->
+        # TODO: fix me
+        #trailer_url = $(@).data('trailer-url')
+        #iframe = $(@).find(".modal-body iframe").attr('src', trailer_url)
+        #console.log(iframe)
+        #iframe.attr(src, trailer_url)
+    )
 
 # workaround for collapsed navbar
 $(document).on('click','.navbar-collapse.in', (e) -> 
