@@ -25,3 +25,7 @@ end
 every 10.days do
     rake "cineworld:pull_list_of_cinemas"
 end
+
+every :friday, :at => "8am" do
+    rake "cineworld:send_emails"
+end
