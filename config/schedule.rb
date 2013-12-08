@@ -22,6 +22,6 @@ every :day, :at => "12:01am" do
     rake "cineworld:performances"
 end
 
-every :day, :at => "03:01am" do
+every :day, :at => "12:30am" do
     rake "imdb:download"
 end
