@@ -4,7 +4,7 @@ class NotificationMailer < ActionMailer::Base
   def new_films_email(films)
     @films = films
     recipients = [
-        #'alicja.kielbasa@gmail.com'
+        'alicja.kielbasa@gmail.com',
         'skrobul@skrobul.com',
     ]
     recipients.each do |recipient|
