@@ -19,8 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 every :day, :at => "12:01am" do
-    rake "cineworld:performances"
-    rake "imdb:download"
-    rake "youtube:download_trailers"
+    rake "refresh_external_data"
 end
 
