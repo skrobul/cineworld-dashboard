@@ -2,8 +2,9 @@ namespace :imdb do
     desc "Downloads meta-data for all films in a database that do not have a review yet"
     task :download => :environment do 
         Film.includes(:review).where("reviews.id" => nil).each do |film|
-            puts "Searching for: #{film.title}" 
-            i = Imdb::Search.new(film.title).movies.first or next
+            parsed_title = film.title.gsub(/\A(2|3)D - /, '')
+            puts "Searching for: #{parsed_title}" 
+            i = Imdb::Search.new(parsed_title).movies.first or next
             Review.create(
                 film: film,
                 director: i.director.join(","),
