@@ -22,3 +22,6 @@ every :day, :at => "12:01am" do
     rake "refresh_external_data"
 end
 
+every 10.days do
+    rake "cineworld:pull_list_of_cinemas"
+end
