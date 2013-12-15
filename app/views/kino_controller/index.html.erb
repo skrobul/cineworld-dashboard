@@ -31,6 +31,7 @@
             <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
             <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
             <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
+            <input type="checkbox" ng-model="film.watched" ng-change="$parent.save()"/>
         </div>
      </div>
  </div>

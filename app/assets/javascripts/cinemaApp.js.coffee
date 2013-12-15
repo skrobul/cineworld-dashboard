@@ -42,13 +42,15 @@ cinemaApp.controller 'CinemaController', ($scope, Cinema, Film, Films) ->
                 film.performances = local_performances
                 films.unshift(film)
         films
+    $scope.save = ->
+        console.log("saving!")
 
 
 cinemaApp.controller 'FilmController', ($scope) ->
     $scope.init = ->
         $scope.plot_button = "more..."
         $scope.show_long_plot = false
-        
+
     $scope.display_long_plot = (e)->
         if $scope.show_long_plot
             $scope.show_long_plot =  false
