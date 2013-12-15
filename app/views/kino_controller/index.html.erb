@@ -5,6 +5,38 @@
     <% end %>
 <% end %>
 
+<div class="row" ng-controller="CinemaController" ng-init="init()">
+ <div class="span6" ng-repeat="cinema in cinemas">
+     <h2> {{ cinema.name }}</h2>
+     <div class="row film" ng-repeat="film in film_in_cinema(cinema.id)">
+        <!-- poster -->
+        <div class="col-md-2 col-xs-4">
+              <a href="{{ film.film_url}}" ng-if="{{film.poster_url}}"><img ng-src="{{ film.poster_url }}"/></a>
+        </div>
+        <!-- end of poster -->
+        <!-- performances --> 
+            <a href="{{ film.film_url}}" class="filmtitle">{{film.title}}</a>
+            <span ng-if="film.review.length != ''">{{ film.review.length }}m</span>
+            <p>
+                <a 
+                    class="badge" 
+                    ng-repeat="performance in film.performances"
+                    ng-href="{{ performance.booking_url }}">
+                    {{performance.short_time}}
+                </a>
+            </p>
+        <!-- end of performances -->
+        <div ng-controller="FilmController" ng-init="init()"> 
+            <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
+            <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
+            <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
+            <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
+        </div>
+     </div>
+ </div>
+</div>
+
+<!--
 <% @cinemas.each do |cinema| %>
     <div class="row">
         <h3 id="<%= cinema %>"><%= cinema %></h3>
@@ -22,3 +54,4 @@
     <% end %>
 	
 <% end %>
+-->
