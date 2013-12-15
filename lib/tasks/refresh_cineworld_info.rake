@@ -48,7 +48,7 @@ namespace :cineworld do
                 end
                 processed_films += 1
             end
-            puts "Processed: #{processed_films} films for #{oc.cinema.name}"
+            puts "Processed: #{processed_films} films for #{oc.cinema.name}" unless oc.cinema.nil?
         end
     end
 

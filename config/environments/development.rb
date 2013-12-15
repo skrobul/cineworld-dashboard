@@ -41,9 +41,9 @@ Kino::Application.configure do
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    domain:               smtp_credentials["smtp_domain"],
-    user_name:            smtp_credentials["smtp_login"],
-    password:             smtp_credentials["smtp_password"],
+    domain:               smtp_credentials && smtp_credentials["smtp_domain"],
+    user_name:            smtp_credentials && smtp_credentials["smtp_login"],
+    password:             smtp_credentials && smtp_credentials["smtp_password"],
     authentication:       'plain',
     enable_starttls_auto: true  }
 end
