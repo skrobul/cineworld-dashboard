@@ -10,8 +10,7 @@
         <div class="row" ng-repeat="cinema in cinemas">
                  <h2> {{ cinema.name }}</h2>
                  <div class="row film"
-                      ng-show="!film.watched || show_watched"
-                      ng-repeat="film in film_in_cinema(cinema.id)"
+                      ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched"
                       ng-controller="FilmController"
                       ng-init="init()"
                       ng-class-odd="'odd'"

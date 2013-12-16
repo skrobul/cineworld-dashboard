@@ -41,6 +41,11 @@ cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
                 film.performances = local_performances
                 films.push(film)
         films
+    $scope.filter_watched = (element) ->
+        if $scope.show_watched
+            return true
+        else
+            return element.watched
 
 
 
@@ -56,9 +61,9 @@ cinemaApp.controller 'FilmController', ($scope, Film) ->
         else 
             $scope.show_long_plot =  true
             $scope.plot_button = "less..."
+
     $scope.save = ()->
-        console.log $scope.film.$update()
-        console.log("saving #{$scope.film.id}=#{$scope.film.watched}")
+        $scope.film.$update()
 
 # Registers modal callbacks once populated
 #
