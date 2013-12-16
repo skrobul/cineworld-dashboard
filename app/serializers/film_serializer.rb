@@ -4,6 +4,6 @@ class FilmSerializer < ActiveModel::Serializer
   has_one :review
 
   def performances
-    object.performances.current
+    object.performances#.current
   end
 end

@@ -45,7 +45,7 @@ cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
         if $scope.show_watched
             return true
         else
-            return element.watched
+            return ! element.watched
 
 
 

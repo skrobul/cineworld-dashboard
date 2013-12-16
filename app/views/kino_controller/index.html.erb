@@ -6,11 +6,11 @@
 <% end %>
 
 <div class="row" id="cinema_ctrl" ng-controller="CinemaController" ng-init="init()">
-    <div class="col-md-10 col-lg-11" id="list_of_movies">
+    <div class="col-md-10 col-lg-10" id="list_of_movies">
         <div class="row" ng-repeat="cinema in cinemas">
                  <h2> {{ cinema.name }}</h2>
                  <div class="row film"
-                      ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched"
+                      ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched | filter:filter.search"
                       ng-controller="FilmController"
                       ng-init="init()"
                       ng-class-odd="'odd'"
@@ -40,23 +40,34 @@
                         <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
                     </div>
                     <div class="tools col-md-2">
-                        <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
-                        <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
-                        <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
-                        <label class="inline checkbox">
-                            <input type="checkbox" ng-model="film.watched" ng-change="save()"/>watched?
-                        </label>
+                            <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
+                            <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
+                            <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="film.watched" ng-change="save()"/>watched?
+                            </label>
                     </div>
                  </div>
         </div>
     </div>
 
-    <div id="navright" class="col-md-2 col-lg-1">
+    <div class="col-md-2 col-lg-2">
         <div class="row">
-            <div class="col-md-1" data-spy="affix" data-offset-top="100">
-                <label class="checkbox inline">
-                    <input type="checkbox" ng-model="show_watched"/>show watched? 
-                </label>
+            <div class="col-md-12 col-lg-12" id="navbar-wrapper">
+             <div class="navbar rightmenu" data-spy="affix" data-offset-top="0">
+                    <p>
+                    <input type="search" ng-model="filter.search" name="film_filter" id="inputFilm_filter" class="form-control" value="" placeholder="Filter...">
+                    </p>
+                    <p>
+                    <button type="button" 
+                            class="btn btn-primary btn-xs" 
+                            ng-click="show_watched=!show_watched"
+                            data-toggle="button">
+                        display watched
+                    </button>
+                    </p>
+
+                </div>
             </div>
         </div>
     </div>
