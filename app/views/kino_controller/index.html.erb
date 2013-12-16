@@ -43,6 +43,7 @@
                     <div class="tools col-md-2">
                         <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
                         <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
+                        <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
                         <label class="inline checkbox">
                             <input type="checkbox" ng-model="film.watched" ng-change="save()"/>watched?
                         </label>
@@ -60,4 +61,36 @@
             </div>
         </div>
     </div>
+
+    <!-- trailer  divs -->
+    <!-- Modal -->
+    <div 
+        class="modal fade trailer_modal"
+        id="film_{{film.id}}"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+        data-trailer-url="{{ film.review.youtube_html }}"
+        ng-repeat="film in films"
+        my-populate-trailer
+        >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" >{{ film.title }}</h4>
+          </div>
+          <div class="modal-body">
+            <iframe></iframe>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
 </div>

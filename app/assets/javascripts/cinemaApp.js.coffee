@@ -59,3 +59,28 @@ cinemaApp.controller 'FilmController', ($scope, Film) ->
     $scope.save = ()->
         console.log $scope.film.$update()
         console.log("saving #{$scope.film.id}=#{$scope.film.watched}")
+
+# Registers modal callbacks once populated
+#
+cinemaApp.directive 'myPopulateTrailer', () ->
+    directiveDefinitionObject =
+        link: (scope, iElement, iAttrs) ->
+            $(iElement).on('show.bs.modal', (e) ->
+                trailer_url = $(@).data('trailer-url')
+                frame = $(@).find(".modal-body iframe")
+                video_url = trailer_url + '?autoplay=1'
+                modal_dialog_width = $(@).find(".modal-dialog").width()
+                modal_dialog_height = $(@).find(".modal-dialog").height()
+                frame.attr('src', video_url)
+                frame.attr('frameborder', 0)
+                frame.attr("width", modal_dialog_width - 50)
+                frame.attr("height", modal_dialog_height - 50)
+                frame.attr("type", "text/html")
+                frame.addClass("youtube-video")
+                modal_body = $(@).find(".modal-body").append(frame)
+                )
+            $(iElement).on("hidden.bs.modal", (e) ->
+                $(@).find(".modal-body").html('empty')
+            )
+        
+    return directiveDefinitionObject
