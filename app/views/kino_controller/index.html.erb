@@ -9,7 +9,13 @@
     <div class="col-md-10 col-lg-11" id="list_of_movies">
         <div class="row" ng-repeat="cinema in cinemas">
                  <h2> {{ cinema.name }}</h2>
-                 <div class="row film"  ng-show="!film.watched || show_watched"  ng-repeat="film in film_in_cinema(cinema.id)" ng-controller="FilmController" ng-init="init()">
+                 <div class="row film"
+                      ng-show="!film.watched || show_watched"
+                      ng-repeat="film in film_in_cinema(cinema.id)"
+                      ng-controller="FilmController"
+                      ng-init="init()"
+                      ng-class-odd="'odd'"
+                 >
                     <!-- poster -->
                     <div class="col-md-2 col-xs-4">
                           <a href="{{ film.film_url}}" ng-if="film.poster_url">
