@@ -19,14 +19,6 @@ cinemaApp.factory 'Film', ["$resource", ($resource) ->
             method: 'PUT'
     })
 ]
-# cinemaApp.factory 'Films', ["$resource", ($resource) ->
-#     $resource('/films', {}, {
-#         update:  
-#             method: 'PATCH'
-#             headers: { 'Content-Type': 'application/json' }
-#     })
-#]
-
 
 
 cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
@@ -44,10 +36,10 @@ cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
             local_performances = []
             angular.forEach film.performances, (performance) ->
                 if performance.cinema_id == cinema_id
-                    local_performances.unshift(performance)
+                    local_performances.push(performance)
             if local_performances.length > 0
                 film.performances = local_performances
-                films.unshift(film)
+                films.push(film)
         films
 
 

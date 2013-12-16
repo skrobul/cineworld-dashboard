@@ -5,54 +5,48 @@
     <% end %>
 <% end %>
 
-<div class="row" ng-controller="CinemaController" ng-init="init()">
- <div class="span6" ng-repeat="cinema in cinemas">
-     <h2> {{ cinema.name }}</h2>
-     <div class="row film" ng-repeat="film in film_in_cinema(cinema.id)" ng-controller="FilmController" ng-init="init()">
-        <!-- poster -->
-        <div class="col-md-2 col-xs-4">
-              <a href="{{ film.film_url}}" ng-if="film.poster_url"><img ng-src="{{ film.poster_url }}"/></a>
+<div class="row" id="cinema_ctrl" ng-controller="CinemaController" ng-init="init()">
+    <div class="col-md-10" id="list_of_movies">
+        <div class="row" ng-repeat="cinema in cinemas">
+         <div class="col-md-10" >
+             <h2> {{ cinema.name }}</h2>
+             <div class="row film"  ng-show="!film.watched || show_watched"  ng-repeat="film in film_in_cinema(cinema.id)" ng-controller="FilmController" ng-init="init()">
+                <!-- poster -->
+                <div class="col-md-2 col-xs-4">
+                      <a href="{{ film.film_url}}" ng-if="film.poster_url"><img ng-src="{{ film.poster_url }}"/></a>
+                </div>
+                <!-- end of poster -->
+                <!-- performances --> 
+                    <a href="{{ film.film_url}}" class="filmtitle">{{film.title}}</a>
+                    <span ng-if="film.review.length != ''">{{ film.review.length }}m</span>
+                    <p>
+                        <a 
+                            class="badge" 
+                            ng-repeat="performance in film.performances"
+                            ng-href="{{ performance.booking_url }}">
+                            {{performance.short_time}}
+                        </a>
+                    </p>
+                <!-- end of performances -->
+                <div> 
+                    <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
+                    <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
+                    <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
+                    <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
+                    <input type="checkbox" ng-model="film.watched" ng-change="save('av')"/>
+                </div>
+             </div>
+         </div>
         </div>
-        <!-- end of poster -->
-        <!-- performances --> 
-            <a href="{{ film.film_url}}" class="filmtitle">{{film.title}}</a>
-            <span ng-if="film.review.length != ''">{{ film.review.length }}m</span>
-            <p>
-                <a 
-                    class="badge" 
-                    ng-repeat="performance in film.performances"
-                    ng-href="{{ performance.booking_url }}">
-                    {{performance.short_time}}
-                </a>
-            </p>
-        <!-- end of performances -->
-        <div> 
-            <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
-            <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
-            <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
-            <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
-            <input type="checkbox" ng-model="film.watched" ng-change="save('av')"/>
-        </div>
-     </div>
- </div>
-</div>
-
-<!--
-<% @cinemas.each do |cinema| %>
-    <div class="row">
-        <h3 id="<%= cinema %>"><%= cinema %></h3>
     </div>
-    
-    <% unless cinema.performances.current.empty? %>
-	   <% cinema.films.each do |film| %>
-            <% if cinema.performances.currently_for_film(film.id).count > 0 %>
-                <%= render partial: "film", locals: { film: film, cinema: cinema } %>
-            <% end %> 
-        <% end %>
 
-    <% else %>
-    		 <p>There are no more performances for today in this cinema.</p>
-    <% end %>
-	
-<% end %>
--->
+    <div id="navright" class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" data-spy="affix" data-offset-top="100">
+                <p>
+                show watched? <input type="checkbox" ng-model="show_watched"/>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
