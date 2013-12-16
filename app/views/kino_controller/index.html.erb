@@ -11,7 +11,7 @@
                  <h2> {{ cinema.name }}</h2>
                  <div class="row film"  ng-show="!film.watched || show_watched"  ng-repeat="film in film_in_cinema(cinema.id)" ng-controller="FilmController" ng-init="init()">
                     <!-- poster -->
-                    <div class="col-md-1 col-xs-4">
+                    <div class="col-md-2 col-xs-4">
                           <a href="{{ film.film_url}}" ng-if="film.poster_url">
                            <img ng-src="{{ film.poster_url }}"/>
                           </a>
@@ -34,7 +34,7 @@
                         <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
                         <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
                     </div>
-                    <div class="tools col-md-1">
+                    <div class="tools col-md-2">
                         <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
                         <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
                         <label class="inline checkbox">
