@@ -1,3 +1,4 @@
+
 # Cinema Module
 #
 # @abstract Main cinema module
@@ -12,22 +13,28 @@ cinemaApp.factory 'Cinema', ["$resource", ($resource) ->
 ]
 
 cinemaApp.factory 'Film', ["$resource", ($resource) ->
-    $resource('/films/:id', {}, {
-        update: { method: 'PUT'}
+    $resource('/films/:id.json', { id:'@id'}, 
+    {
+        update: 
+            method: 'PUT'
     })
 ]
-cinemaApp.factory 'Films', ["$resource", ($resource) ->
-    $resource('/films')
-]
+# cinemaApp.factory 'Films', ["$resource", ($resource) ->
+#     $resource('/films', {}, {
+#         update:  
+#             method: 'PATCH'
+#             headers: { 'Content-Type': 'application/json' }
+#     })
+#]
 
 
 
-cinemaApp.controller 'CinemaController', ($scope, Cinema, Film, Films) ->
+cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
 
     $scope.init = () ->
         #@cinemaService = new Cinema()
         $scope.cinemas = Cinema.query()
-        $scope.films = Films.query()
+        $scope.films = Film.query()
         $scope.show_long_plot = false
        # $scope.plot_button = "more..."
 
@@ -42,11 +49,10 @@ cinemaApp.controller 'CinemaController', ($scope, Cinema, Film, Films) ->
                 film.performances = local_performances
                 films.unshift(film)
         films
-    $scope.save = ->
-        console.log("saving!")
 
 
-cinemaApp.controller 'FilmController', ($scope) ->
+
+cinemaApp.controller 'FilmController', ($scope, Film) ->
     $scope.init = ->
         $scope.plot_button = "more..."
         $scope.show_long_plot = false
@@ -58,3 +64,6 @@ cinemaApp.controller 'FilmController', ($scope) ->
         else 
             $scope.show_long_plot =  true
             $scope.plot_button = "less..."
+    $scope.save = ()->
+        console.log $scope.film.$update()
+        console.log("saving #{$scope.film.id}=#{$scope.film.watched}")
