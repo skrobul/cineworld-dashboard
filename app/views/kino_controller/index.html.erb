@@ -8,7 +8,7 @@
 <div class="row" id="cinema_ctrl" ng-controller="CinemaController" ng-init="init()">
     <div class="col-md-10 col-lg-10" id="list_of_movies">
         <div class="row" ng-repeat="cinema in cinemas">
-                 <h2> {{ cinema.name }}</h2>
+                 <h2 ng-show="film_in_cinema(cinema.id)  | filter:filter_watched | filter:filter.search"> {{ cinema.name }}</h2>
                  <div class="row film"
                       ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched | filter:filter.search"
                       ng-controller="FilmController"
@@ -38,9 +38,10 @@
                         <!-- end of performances -->
                         <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
                         <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
                     </div>
                     <div class="tools col-md-2">
-                            <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
+                            
                             <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
                             <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
                             <label class="checkbox">
