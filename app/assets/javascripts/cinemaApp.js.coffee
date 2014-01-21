@@ -21,7 +21,7 @@ cinemaApp.factory 'Film', ["$resource", ($resource) ->
 ]
 
 
-cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
+cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, Cinema, Film) ->
 
     $scope.init = () ->
         #@cinemaService = new Cinema()
@@ -46,10 +46,11 @@ cinemaApp.controller 'CinemaController', ($scope, Cinema, Film) ->
             return true
         else
             return ! element.watched
+]
 
 
 
-cinemaApp.controller 'FilmController', ($scope, Film) ->
+cinemaApp.controller 'FilmController', ['$scope', 'Film', ($scope, Film) ->
     $scope.init = ->
         $scope.plot_button = "more..."
         $scope.show_long_plot = false
@@ -64,6 +65,7 @@ cinemaApp.controller 'FilmController', ($scope, Film) ->
 
     $scope.save = ()->
         $scope.film.$update()
+]
 
 # Registers modal callbacks once populated
 #
