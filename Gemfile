@@ -45,3 +45,4 @@ gem 'youtube_it'
 gem 'pry-rails', :groups => [:development]
 gem 'anjlab-bootstrap-rails', :require => 'bootstrap-rails',
                               :github => 'anjlab/bootstrap-rails'
+gem "active_model_serializers"
