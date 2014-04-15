@@ -2,7 +2,7 @@ class FilmsController < ApplicationController
     respond_to :json
 
     def index
-        @films = Film.all
+        @films = Film.includes(:performances).includes(:review)
         respond_with @films
     end
 
