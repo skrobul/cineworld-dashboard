@@ -16,9 +16,11 @@ namespace :youtube do
             title = review.film.title.gsub(/\A(2|3)D - /, '')
             puts "Searching for trailer: #{title}"
             video = @youtube.videos_by(:query => "#{title} trailer", :max_results => 1).videos.first
-            review.youtube_html = video.embed_url
-            #puts "    HTML: #{review.youtube_html}"
-            review.save
+            if video
+                review.youtube_html = video.embed_url
+                #puts "    HTML: #{review.youtube_html}"
+                review.save
+            end
         end
     end
 end
