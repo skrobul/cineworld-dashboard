@@ -25,15 +25,15 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, C
 
     $scope.init = () ->
         #@cinemaService = new Cinema()
-        $scope.cinemas = Cinema.query ->
-            $scope.films = Film.query ->
+        $scope.cinemas = Cinema.query()
+        $scope.films = Film.query()
 
 
         # $scope.cinemas = Cinema.query()
         # $scope.films = Film.query()
         $scope.show_long_plot = false
         $scope.perfcount = {}
-       # $scope.plot_button = "more..."
+        $scope.plot_button = "more..."
     $scope.init()
     $scope.film_in_cinema = (cinema_id) ->
         films = []
