@@ -1,18 +1,19 @@
 
 <%= content_for(:menu_items) do %>
     <% @cinemas.each do |cinema| %>
-                <li><a href="#<%= cinema %>"><%= cinema.name.gsub("London - ", "") %> </a></li>
+        <%- if cinema.performances.current.count > 0 %>
+                <li><a href="#<%= cinema %>"><%= cinema.name.gsub("London - ", "") %></a></li>
+        <% end %>
     <% end %>
 <% end %>
 
-<div class="row" id="cinema_ctrl" ng-controller="CinemaController" ng-init="init()">
+<div class="row" id="cinema_ctrl" ng-controller="CinemaController" >
     <div class="col-md-10 col-lg-10" id="list_of_movies">
         <div class="row" ng-repeat="cinema in cinemas">
-                 <h2 ng-show="film_in_cinema(cinema.id)  | filter:filter_watched | filter:filter.search"> {{ cinema.name }}</h2>
+                 <h2 id="{{cinema.name.replace('London - ', '')}}" ng-show="count_performances_in_cinema(cinema.id) > 0"> {{ cinema.name }}</h2>
                  <div class="row film"
                       ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched | filter:filter.search"
                       ng-controller="FilmController"
-                      ng-init="init()"
                       ng-class-odd="'odd'"
                  >
                     <!-- poster -->
@@ -22,15 +23,15 @@
                           </a>
                     </div>
                     <!-- end of poster -->
-                 
-                    <!-- performances --> 
+
+                    <!-- performances -->
                     <div class="performances_and_plot col-md-8">
                         <a href="{{ film.film_url}}" class="filmtitle">{{film.title}}</a>
                         <span ng-if="film.review.length != ''">{{ film.review.length }}m</span>
                         <p>
-                            <a 
-                                class="badge" 
-                                ng-repeat="performance in film.performances"
+                            <a
+                                class="badge"
+                                ng-repeat="performance in film.performances[cinema.id]"
                                 ng-href="{{ performance.booking_url }}">
                                 {{performance.short_time}}
                             </a>
@@ -41,7 +42,7 @@
                         <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
                     </div>
                     <div class="tools col-md-2">
-                            
+
                             <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
                             <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
                             <label class="checkbox">
@@ -60,8 +61,8 @@
                     <input type="search" ng-model="filter.search" name="film_filter" id="inputFilm_filter" class="form-control" value="" placeholder="Filter...">
                     </p>
                     <p>
-                    <button type="button" 
-                            class="btn btn-primary btn-xs" 
+                    <button type="button"
+                            class="btn btn-primary btn-xs"
                             ng-click="show_watched=!show_watched"
                             data-toggle="button">
                         display watched
@@ -75,7 +76,7 @@
 
     <!-- trailer  divs -->
     <!-- Modal -->
-    <div 
+    <div
         class="modal fade trailer_modal"
         id="film_{{film.id}}"
         tabindex="-1"

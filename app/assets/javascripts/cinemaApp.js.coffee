@@ -13,9 +13,9 @@ cinemaApp.factory 'Cinema', ["$resource", ($resource) ->
 ]
 
 cinemaApp.factory 'Film', ["$resource", ($resource) ->
-    $resource('/films/:id.json', { id:'@id'}, 
+    $resource('/films/:id.json', { id:'@id'},
     {
-        update: 
+        update:
             method: 'PUT'
     })
 ]
@@ -25,22 +25,36 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, C
 
     $scope.init = () ->
         #@cinemaService = new Cinema()
-        $scope.cinemas = Cinema.query()
-        $scope.films = Film.query()
-        $scope.show_long_plot = false
-       # $scope.plot_button = "more..."
+        $scope.cinemas = Cinema.query ->
+            $scope.films = Film.query ->
 
+
+        # $scope.cinemas = Cinema.query()
+        # $scope.films = Film.query()
+        $scope.show_long_plot = false
+        $scope.perfcount = {}
+       # $scope.plot_button = "more..."
+    $scope.init()
     $scope.film_in_cinema = (cinema_id) ->
         films = []
-        angular.forEach $scope.films, (film) ->
+        $scope.films.forEach (film) ->
             local_performances = []
-            angular.forEach film.performances, (performance) ->
+            film.performances.forEach (performance) ->
                 if performance.cinema_id == cinema_id
                     local_performances.push(performance)
             if local_performances.length > 0
-                film.performances = local_performances
+                film.performances[cinema_id] = local_performances
                 films.push(film)
         films
+    $scope.count_performances_in_cinema = (cinema_id) ->
+        return $scope.perfcount[cinema_id] if $scope.perfcount[cinema_id]
+        pcount = 0
+        $scope.films.forEach (film) ->
+            film.performances.forEach (perf) ->
+                pcount++ if perf.cinema_id == cinema_id
+        $scope.perfcount[cinema_id] = pcount
+        pcount
+
     $scope.filter_watched = (element) ->
         if $scope.show_watched
             return true
@@ -59,7 +73,7 @@ cinemaApp.controller 'FilmController', ['$scope', 'Film', ($scope, Film) ->
         if $scope.show_long_plot
             $scope.show_long_plot =  false
             $scope.plot_button = "more..."
-        else 
+        else
             $scope.show_long_plot =  true
             $scope.plot_button = "less..."
 
@@ -89,5 +103,5 @@ cinemaApp.directive 'myPopulateTrailer', () ->
             $(iElement).on("hidden.bs.modal", (e) ->
                 $(@).find(".modal-body").html('empty')
             )
-        
+
     return directiveDefinitionObject
