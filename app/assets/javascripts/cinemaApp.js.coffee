@@ -22,11 +22,15 @@ cinemaApp.factory 'Film', ["$resource", ($resource) ->
 
 
 cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, Cinema, Film) ->
-
+    $scope.cinemas_loading = true
+    $scope.films_loading = true
     $scope.init = () ->
         #@cinemaService = new Cinema()
-        $scope.cinemas = Cinema.query()
-        $scope.films = Film.query()
+        $scope.cinemas = Cinema.query ->
+            $scope.cinemas_loading = false
+        $scope.films = Film.query ->
+            $scope.films_loading = false
+
 
 
         # $scope.cinemas = Cinema.query()

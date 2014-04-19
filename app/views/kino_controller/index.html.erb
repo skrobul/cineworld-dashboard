@@ -8,6 +8,9 @@
 <% end %>
 
 <div class="row" id="cinema_ctrl" ng-controller="CinemaController" >
+    <div class="col-md-10 col-lg-10" ng-show="cinemas_loading || films_loading">
+      <%= image_tag 'loading.gif' %>
+    </div>
     <div class="col-md-10 col-lg-10" id="list_of_movies">
         <div class="row" ng-repeat="cinema in cinemas">
                  <h2 id="{{cinema.name.replace('London - ', '')}}" ng-show="count_performances_in_cinema(cinema.id) > 0"> {{ cinema.name }}</h2>
@@ -53,10 +56,10 @@
         </div>
     </div>
 
-    <div class="col-md-2 col-lg-2">
+    <div class="col-md-2 col-lg-2" >
         <div class="row">
             <div class="col-md-12 col-lg-12" id="navbar-wrapper">
-             <div class="navbar rightmenu" data-spy="affix" data-offset-top="0">
+             <div class="navbar rightmenu" data-spy="affix" data-offset-top="0"  ng-hide="cinemas_loading || films_loading">
                     <p>
                     <input type="search" ng-model="filter.search" name="film_filter" id="inputFilm_filter" class="form-control" value="" placeholder="Filter...">
                     </p>
