@@ -1,5 +1,6 @@
 require 'cinecheck'
 require 'yaml'
+require 'directions'
 
 class KinoControllerController < ApplicationController
 
@@ -14,7 +15,7 @@ class KinoControllerController < ApplicationController
     @movies.each do |c, movie|
         @movies[c].each do |m|
             title = m.first['title']
-            @film_descriptions[title] ||= Rails.cache.fetch("cached_movie_desc_#{title}", :expires_in => 2.days) do 
+            @film_descriptions[title] ||= Rails.cache.fetch("cached_movie_desc_#{title}", :expires_in => 2.days) do
                 ret = {}
                 imdb_info = lookup_movie_plot(title) or return nil
                 [:plot, :languages, :director, :genres, :url, :length, :rating, :plot_summary].each do |attrib|
@@ -29,4 +30,5 @@ class KinoControllerController < ApplicationController
   def index
     @cinemas = Cinema.where(id: ObservedCinema.all.map(&:cinema_id))
   end
+
 end

@@ -13,7 +13,9 @@
     </div>
     <div class="col-md-10 col-lg-10" id="list_of_movies">
         <div class="row" ng-repeat="cinema in cinemas">
-                 <h2 id="{{cinema.name.replace('London - ', '')}}" ng-show="count_performances_in_cinema(cinema.id) > 0"> {{ cinema.name }}</h2>
+                 <h2 id="{{cinema.name.replace('London - ', '')}}" ng-show="count_performances_in_cinema(cinema.id) > 0"> {{ cinema.name }}
+                 </h2>
+                 <h5 ng-show="count_performances_in_cinema(cinema.id) > 0" >from home: {{cinema.traffic_info.duration.text}}, {{cinema.traffic_info.distance.text}}</h5>
                  <div class="row film"
                       ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched | filter:filter.search"
                       ng-controller="FilmController"

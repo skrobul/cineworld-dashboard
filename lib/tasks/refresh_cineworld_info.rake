@@ -9,7 +9,7 @@ end
 
 
 namespace :cineworld do
-    task :initialize_cineworld_api => :environment do 
+    task :initialize_cineworld_api => :environment do
         cineworld_api_key = YAML::load(File.open("#{Rails.root}/config/api.yml"))["cineworld_api_key"]
         @cineworld = MyCineworld.new(cineworld_api_key)
     end
@@ -17,10 +17,12 @@ namespace :cineworld do
 
     desc "Queries Cineworld API for list of all available cinemas"
     task :pull_list_of_cinemas => [:environment, :initialize_cineworld_api] do
-        all_cinemas = @cineworld.cinemas(:territory => 'GB')['cinemas']
+        all_cinemas = @cineworld.cinemas(:territory => 'GB', :full => true)['cinemas']
         all_cinemas.each do |cinema|
             myc = Cinema.where(:id => cinema['id']).first_or_create
             myc.name = cinema['name']
+            myc.postcode = cinema['postcode']
+            myc.address = cinema['address']
             myc.save
         end
     end
