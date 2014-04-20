@@ -1,10 +1,10 @@
 
 <%= content_for(:menu_items) do %>
-<% @cinemas.each do |cinema| %>
-<%- if cinema.performances.current.count > 0 %>
-<li><a href="#<%= cinema %>"><%= cinema.name.gsub("London - ", "") %></a></li>
-<% end %>
-<% end %>
+  <% @cinemas.each do |cinema| %>
+    <%- if cinema.performances.current.count > 0 %>
+     <li><a href="#<%= cinema %>"><%= cinema.name.gsub("London - ", "") %></a></li>
+    <% end %>
+  <% end %>
 <% end %>
 
 <div class="row" id="cinema_ctrl" ng-controller="CinemaController" >
@@ -23,11 +23,11 @@
      >
      <!-- poster -->
      <div class="col-md-2 col-xs-4">
-      <a href="{{ film.film_url}}" ng-if="film.poster_url">
-       <img ng-src="{{ film.poster_url }}"/>
-     </a>
-   </div>
-   <!-- end of poster -->
+       <a href="{{ film.film_url}}" ng-if="film.poster_url">
+         <img ng-src="{{ film.poster_url }}"/>
+       </a>
+     </div>
+    <!-- end of poster -->
 
    <!-- performances -->
    <div class="performances_and_plot col-md-8">
@@ -40,29 +40,31 @@
       ng-repeat="performance in film.performances[cinema.id]"
       ng-href="{{ performance.booking_url }}">
       {{performance.short_time}}
-    </a>
-  </p>
-  <!-- end of performances -->
-  <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
-  <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
-  <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
-</div>
-<div class="tools col-md-2">
+      </a>
+    </p>
+    <!-- end of performances -->
+    <!-- plot -->
+    <p ng-hide="show_long_plot">{{ film.review.plot }} </p>
+    <p ng-show="show_long_plot">{{ film.review.plot_summary }}</p>
+    <button type="button" class="btn btn-default btn-xs" ng-click="display_long_plot($event)">{{plot_button}}</button>
+    <!-- end of plot -->
+  </div>
+  <!-- buttons on right -->
+  <div class="tools col-md-2" class="movie_buttons">
+    <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
+    <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
+    <label class="checkbox">
+      <input type="checkbox" ng-model="film.watched" ng-change="save()"/>watched?
+    </label>
+  </div>
+  <!-- end of buttons on right -->
 
-  <a class="btn btn-default btn-xs" type="button" href="{{ film.review.url}}">IMDB</a>
-  <button class="btn btn-default btn-xs"  data-toggle="modal" data-target="#film_{{ film.id }}">Trailer</button>
-  <label class="checkbox">
-    <input type="checkbox" ng-model="film.watched" ng-change="save()"/>watched?
-  </label>
-</div>
-</div>
-</div>
-</div>
+  </div> <!-- end of film -->
+  </div> <!-- end of cinema -->
+</div> <!-- end of list of movies pane -->
 
-<div class="col-md-3 col-lg-3" >
-  <div class="row">
-    <div class="col-md-12 col-lg-12" id="navbar-wrapper">
-     <div class="navbar rightmenu" data-spy="affix" data-offset-top="0"  ng-hide="cinemas_loading || films_loading">
+<div class="col-md-3 col-lg-3" id="navbar-wrapper"> <!--  navbar on right -->
+     <div class="rightmenu affix"  ng-hide="cinemas_loading || films_loading">
       <p>
         <input type="search" ng-model="filter.search" name="film_filter" id="inputFilm_filter" class="form-control" value="" placeholder="Filter...">
       </p>
@@ -72,17 +74,15 @@
         ng-click="show_watched=!show_watched"
         data-toggle="button">
         display watched
-      </button>
-    </p>
-    <p>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="cinema in cinemas">{{ cinema.short_name }} <span class='badge'>{{ cinema.traffic_info.duration.text}}</span></li>
-      </ul>
-    </p>
-  </div>
-</div>
-</div>
-</div>
+        </button>
+      </p>
+      <p>
+        <ul class="list-group">
+        <li class="list-group-item" ng-repeat="cinema in cinemas"><small>{{ cinema.short_name }}</small><span class='badge'>{{ cinema.traffic_info.duration.text}}</span></li>
+        </ul>
+      </p>
+      </div> <!-- end of navbar -->
+</div> <!-- end of navbar -->
 
 <!-- trailer  divs -->
 <!-- Modal -->
