@@ -16,5 +16,3 @@
 /config/api.yml
 /config/smtp_credentials.yml
 .DS_Store
-.ruby-version
-.ruby-gemset
