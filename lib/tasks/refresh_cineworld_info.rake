@@ -10,7 +10,7 @@ end
 
 namespace :cineworld do
     task :initialize_cineworld_api => :environment do
-        cineworld_api_key = YAML::load(File.open("#{Rails.root}/config/api.yml"))["cineworld_api_key"]
+        cineworld_api_key = ENV['CINEWORLD_API_KEY'] || YAML::load(File.open("#{Rails.root}/config/api.yml"))["cineworld_api_key"]
         @cineworld = MyCineworld.new(cineworld_api_key)
     end
 
