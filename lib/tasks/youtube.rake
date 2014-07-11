@@ -2,7 +2,7 @@ require 'yaml'
 
 namespace :youtube do
     task :api => :environment do
-        youtube_api_key = YAML::load(File.open("#{Rails.root}/config/api.yml"))["youtube_api_key"]
+        youtube_api_key = ENV['YOUTUBE_API_KEY'] || YAML::load(File.open("#{Rails.root}/config/api.yml"))["youtube_api_key"]
         @youtube = YouTubeIt::Client.new(:dev_key => youtube_api_key)
 
     end
