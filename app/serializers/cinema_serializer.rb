@@ -1,4 +1,4 @@
 class CinemaSerializer < ActiveModel::Serializer
-  attributes :id, :name, :traffic_info, :short_name
+  attributes :id, :name, :short_name
   has_many :films, embed: :ids
 end

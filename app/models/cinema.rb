@@ -1,7 +1,7 @@
 require 'directions'
 
 class Cinema < ActiveRecord::Base
-  attr_accessible :id, :name
+  attr_accessible :id, :name, :postcode
   has_and_belongs_to_many :films
   has_many :performances
 
