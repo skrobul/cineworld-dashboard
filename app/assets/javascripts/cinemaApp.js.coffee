@@ -6,58 +6,67 @@
 cinemaApp = angular.module 'Cinema', ['ngResource']
     # configuration handler
 
-cinemaApp.factory 'Cinema', ["$resource", ($resource) ->
-    $resource('/cinemas', {}, {
-            update: { method: 'PUT' },
-        })
-]
+cinemaApp.factory 'Cinema', ["$http", ($http) ->
+  return {
+    query: ->
+      $http.get '/cinemas'
+  }]
+cinemaApp.factory 'Film', ['$http', ($http) ->
+  return {
+    query: ->
+      $http.get '/films.json'
+  }]
 
-cinemaApp.factory 'Film', ["$resource", ($resource) ->
-    $resource('/films/:id.json', { id:'@id'},
-    {
-        update:
-            method: 'PUT'
-    })
-]
+# cinemaApp.factory 'Film', ["$resource", ($resource) ->
+#     $resource('/films/:id.json', { id:'@id'},
+#     {
+#         update:
+#             method: 'PUT'
+#     })
+# ]
 
 
-cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, Cinema, Film) ->
+cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$http', ($scope, Cinema, Film, $q, $http) ->
     $scope.cinemas_loading = true
     $scope.films_loading = true
-    $scope.init = () ->
-        #@cinemaService = new Cinema()
-        $scope.cinemas = Cinema.query ->
-            $scope.cinemas_loading = false
-        $scope.films = Film.query ->
-            $scope.films_loading = false
 
+    process_results = (results) ->
+      cinemas = results[0]
+      films = results[1]
 
+      $scope.films = {}
+      for film in  films.data
+        $scope.films[film.id] = film
 
-        # $scope.cinemas = Cinema.query()
-        # $scope.films = Film.query()
-        $scope.show_long_plot = false
-        $scope.perfcount = {}
-        $scope.plot_button = "more..."
-    $scope.init()
-    $scope.film_in_cinema = (cinema_id) ->
-        films = []
-        $scope.films.forEach (film) ->
-            local_performances = []
-            film.performances.forEach (performance) ->
-                if performance.cinema_id == cinema_id
-                    local_performances.push(performance)
-            if local_performances.length > 0
-                film.performances[cinema_id] = local_performances
-                films.push(film)
-        films
-    $scope.count_performances_in_cinema = (cinema_id) ->
-        return $scope.perfcount[cinema_id] if $scope.perfcount[cinema_id]
-        pcount = 0
-        $scope.films.forEach (film) ->
-            film.performances.forEach (perf) ->
-                pcount++ if perf.cinema_id == cinema_id
-        $scope.perfcount[cinema_id] = pcount
-        pcount
+      $scope.cinemas = {}
+      # build initial cinemas list
+      for cinema in cinemas.data
+        $scope.cinemas[cinema.id] = 
+          id: cinema.id
+          name: cinema.short_name
+      # populate it with performances
+      console.log $scope.films
+      for film_id, film of $scope.films
+        for performance in film.performances
+          curr_cinema_id = performance.cinema_id
+          curr_cinema = $scope.cinemas[curr_cinema_id]
+          curr_cinema.films = {} unless curr_cinema.films?
+          curr_cinema.films[film_id] = {} unless curr_cinema.films[film_id]?
+          c_film = curr_cinema.films[film.id]
+          c_film.performances = [] unless c_film.performances?
+          c_film.performances.push performance
+
+      $scope.cinemas_loading = false
+      $scope.films_loading = false
+
+    log_error = (err) -> console.error err
+
+    all_ready = $q.all [$http.get('/cinemas'), $http.get('/films.json')]
+    all_ready.then(process_results, log_error)
+
+    $scope.show_long_plot = false
+    $scope.perfcount = {}
+    $scope.plot_button = "more..."
 
     $scope.filter_watched = (element) ->
         if $scope.show_watched
@@ -68,7 +77,9 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, C
 
 
 
-cinemaApp.controller 'FilmController', ['$scope', 'Film', ($scope, Film) ->
+cinemaApp.controller 'FilmController', ['$scope', ($scope) ->
+
+    $scope.film = $scope.films[$scope.film_id]
     $scope.init = ->
         $scope.plot_button = "more..."
         $scope.show_long_plot = false
