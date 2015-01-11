@@ -29,24 +29,30 @@ cinemaApp.factory 'Film', ['$http', ($http) ->
 cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$http', ($scope, Cinema, Film, $q, $http) ->
     $scope.cinemas_loading = true
     $scope.films_loading = true
+    $scope.show_watched = false
 
     process_results = (results) ->
-      cinemas = results[0]
-      films = results[1]
+      $scope.cinemasData = results[0]
+      $scope.filmsData = results[1]
+      $scope.build_list()
 
+    $scope.build_list = ->
       $scope.films = {}
-      for film in  films.data
+      for film in  $scope.filmsData.data
         $scope.films[film.id] = film
 
       $scope.cinemas = {}
       # build initial cinemas list
-      for cinema in cinemas.data
+      for cinema in $scope.cinemasData.data
         $scope.cinemas[cinema.id] = 
           id: cinema.id
           name: cinema.short_name
       # populate it with performances
-      console.log $scope.films
       for film_id, film of $scope.films
+        # ignore watched films if filter enabled
+        unless $scope.show_watched || ! $scope.films[film_id].watched
+          continue
+
         for performance in film.performances
           curr_cinema_id = performance.cinema_id
           curr_cinema = $scope.cinemas[curr_cinema_id]
@@ -61,23 +67,21 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
 
     log_error = (err) -> console.error err
 
-    all_ready = $q.all [$http.get('/cinemas'), $http.get('/films.json')]
-    all_ready.then(process_results, log_error)
+    $scope.all_ready = $q.all [$http.get('/cinemas'), $http.get('/films.json')]
+    $scope.all_ready.then(process_results, log_error)
 
     $scope.show_long_plot = false
     $scope.perfcount = {}
     $scope.plot_button = "more..."
 
-    $scope.filter_watched = (element) ->
-        if $scope.show_watched
-            return true
-        else
-            return ! element.watched
+    $scope.$watch 'show_watched', ->
+      $scope.all_ready.then ->
+        $scope.build_list()
 ]
 
 
 
-cinemaApp.controller 'FilmController', ['$scope', ($scope) ->
+cinemaApp.controller 'FilmController', ['$scope', '$http', ($scope, $http) ->
 
     $scope.film = $scope.films[$scope.film_id]
     $scope.init = ->
@@ -93,7 +97,8 @@ cinemaApp.controller 'FilmController', ['$scope', ($scope) ->
             $scope.plot_button = "less..."
 
     $scope.save = ()->
-        $scope.film.$update()
+      $http.put "/films/#{$scope.film_id}",
+        watched: $scope.film.watched
 ]
 
 # Registers modal callbacks once populated
