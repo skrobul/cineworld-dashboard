@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
 #
 
 gem 'rails', '3.2.12'
@@ -8,7 +7,7 @@ gem 'rails', '3.2.12'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'pg'
+# gem 'pg'
 
 gem 'cineworld'
 gem 'json', '~> 1.7.7'
