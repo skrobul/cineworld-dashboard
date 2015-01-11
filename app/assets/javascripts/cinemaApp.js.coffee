@@ -44,7 +44,7 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
       $scope.cinemas = {}
       # build initial cinemas list
       for cinema in $scope.cinemasData.data
-        $scope.cinemas[cinema.id] = 
+        $scope.cinemas[cinema.id] =
           id: cinema.id
           name: cinema.short_name
       # populate it with performances
