@@ -4,11 +4,13 @@ class Film < ActiveRecord::Base
   has_many :performances
   has_one :review
   scope :name_exclude, ->(name) { where("title NOT LIKE ?", "%#{name}%")}
-  scope :notification_candidates, -> { where(notified: false)
-                                       .name_exclude('Hindi')
-                                       .name_exclude('Tamil')
-                                       .name_exclude('Punjab')
-                                       .name_exclude('Bollywood')
-  }
+  scope :exclude_noneng, -> { name_exclude('Hindi')
+                               .name_exclude('Tamil')
+                               .name_exclude('Punjab')
+                               .name_exclude('Bollywood')
+                               .name_exclude('Juniors')
+                            }
+  scope :notification_candidates, -> { where(notified: false).exclude_noneng }
+  default_scope { exclude_noneng }
 
 end
