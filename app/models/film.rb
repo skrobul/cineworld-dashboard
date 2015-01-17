@@ -9,6 +9,7 @@ class Film < ActiveRecord::Base
                                .name_exclude('Punjab')
                                .name_exclude('Bollywood')
                                .name_exclude('Juniors')
+                               .name_exclude('Telugu')
                             }
   scope :notification_candidates, -> { where(notified: false).exclude_noneng }
   default_scope { exclude_noneng }
