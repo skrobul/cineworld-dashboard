@@ -79,9 +79,18 @@
       </p>
       <p>
         <!-- slider -->
-        <label for="cutoff_min">cutoff_min</label><input type="text" name="cutoff_min" ng-model="cutoff_time_min" id="cutoff_min">
-        <br>
-        <label for="cutoff_max">cutoff_max</label><input type="text" name="cutoff_max" ng-model="cutoff_time_max" id="cutoff_max">
+        After: <b>{{ cutoff_time_min | toMinutes}}</b> <br>
+        Before: <b>{{ cutoff_time_max | toMinutes }}</b>
+
+        <slider floor="0"
+          ceiling="24"
+          precision="2"
+          step="0.5"
+          ng-model-low="cutoff_time_min"
+          ng-model-high="cutoff_time_max"
+          translate="toMinutes"
+          ></slider>
+
       </p>
       </div> <!-- end of navbar -->
 </div> <!-- end of navbar -->

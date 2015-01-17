@@ -3,7 +3,7 @@
 #
 # @abstract Main cinema module
 #
-cinemaApp = angular.module 'Cinema', ['ngResource']
+cinemaApp = angular.module 'Cinema', ['ui.slider']
     # configuration handler
 
 cinemaApp.factory 'Cinema', ["$http", ($http) ->
@@ -32,6 +32,8 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
     $scope.show_watched = false
     $scope.cutoff_time_min = 0.0
     $scope.cutoff_time_max = 24.0
+
+
 
     process_results = (results) ->
       $scope.cinemasData = results[0].data
@@ -139,3 +141,20 @@ cinemaApp.directive 'myPopulateTrailer', () ->
             )
 
     return directiveDefinitionObject
+
+cinemaApp.filter 'toMinutes', () ->
+
+  (input) ->
+    pad = (num, size) ->
+      if num < 10
+        s = "00" + num
+        s.substr s.length-size
+      else
+        num
+    dtime = parseFloat(input)
+    hours = Math.floor(dtime)
+    dmins = dtime - hours
+    mins = dmins * 60
+    padded_hours = pad(hours, 2)
+    padded_mins = pad(mins, 2)
+    "#{padded_hours}:#{padded_mins}"
