@@ -30,6 +30,8 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
     $scope.cinemas_loading = true
     $scope.films_loading = true
     $scope.show_watched = false
+    $scope.cutoff_time_min = 0.0
+    $scope.cutoff_time_max = 24.0
 
     process_results = (results) ->
       $scope.cinemasData = results[0].data
@@ -54,13 +56,15 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
           continue
 
         for performance in film.performances
-          curr_cinema_id = performance.cinema_id
-          curr_cinema = $scope.cinemas[curr_cinema_id]
-          curr_cinema.films = {} unless curr_cinema.films?
-          curr_cinema.films[film_id] = {} unless curr_cinema.films[film_id]?
-          c_film = curr_cinema.films[film.id]
-          c_film.performances = [] unless c_film.performances?
-          c_film.performances.push performance
+          if performance.decimal_time >= $scope.cutoff_time_min &&
+             performance.decimal_time <= $scope.cutoff_time_max
+              curr_cinema_id = performance.cinema_id
+              curr_cinema = $scope.cinemas[curr_cinema_id]
+              curr_cinema.films = {} unless curr_cinema.films?
+              curr_cinema.films[film_id] = {} unless curr_cinema.films[film_id]?
+              c_film = curr_cinema.films[film.id]
+              c_film.performances = [] unless c_film.performances?
+              c_film.performances.push performance
 
       $scope.cinemas_loading = false
       $scope.films_loading = false
@@ -78,6 +82,15 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
     $scope.$watch 'show_watched', ->
       $scope.results_processed.then ->
         $scope.build_list()
+
+    $scope.$watch 'cutoff_time_min', ->
+      $scope.results_processed.then ->
+        $scope.build_list()
+
+    $scope.$watch 'cutoff_time_max', ->
+      $scope.results_processed.then ->
+        $scope.build_list()
+
 ]
 
 

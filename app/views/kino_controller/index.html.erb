@@ -55,6 +55,8 @@
     <label class="checkbox">
       <input type="checkbox" ng-model="film.watched" ng-change="save()"/>watched?
     </label>
+
+
   </div>
   <!-- end of buttons on right -->
 
@@ -74,6 +76,12 @@
         data-toggle="button">
         display watched
         </button>
+      </p>
+      <p>
+        <!-- slider -->
+        <label for="cutoff_min">cutoff_min</label><input type="text" name="cutoff_min" ng-model="cutoff_time_min" id="cutoff_min">
+        <br>
+        <label for="cutoff_max">cutoff_max</label><input type="text" name="cutoff_max" ng-model="cutoff_time_max" id="cutoff_max">
       </p>
       </div> <!-- end of navbar -->
 </div> <!-- end of navbar -->
