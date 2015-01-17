@@ -30,7 +30,7 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
     $scope.cinemas_loading = true
     $scope.films_loading = true
     $scope.show_watched = false
-    $scope.cutoff_time_min = 0.0
+    $scope.cutoff_time_min = 14.0
     $scope.cutoff_time_max = 24.0
 
 
