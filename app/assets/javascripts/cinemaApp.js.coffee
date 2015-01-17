@@ -32,21 +32,21 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
     $scope.show_watched = false
 
     process_results = (results) ->
-      $scope.cinemasData = results[0]
-      $scope.filmsData = results[1]
-      $scope.build_list()
+      $scope.cinemasData = results[0].data
+      $scope.filmsData = results[1].data
 
     $scope.build_list = ->
       $scope.films = {}
-      for film in  $scope.filmsData.data
+      for film in  $scope.filmsData.films
         $scope.films[film.id] = film
 
       $scope.cinemas = {}
       # build initial cinemas list
-      for cinema in $scope.cinemasData.data
+      for cinema in $scope.cinemasData.cinemas
         $scope.cinemas[cinema.id] =
           id: cinema.id
           name: cinema.short_name
+      #
       # populate it with performances
       for film_id, film of $scope.films
         # ignore watched films if filter enabled
@@ -68,14 +68,15 @@ cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$ht
     log_error = (err) -> console.error err
 
     $scope.all_ready = $q.all [$http.get('/cinemas'), $http.get('/films.json')]
-    $scope.all_ready.then(process_results, log_error)
+    $scope.results_processed = $scope.all_ready.then(process_results, log_error)
+    $scope.results_processed.then($scope.build_list)
 
     $scope.show_long_plot = false
     $scope.perfcount = {}
     $scope.plot_button = "more..."
 
     $scope.$watch 'show_watched', ->
-      $scope.all_ready.then ->
+      $scope.results_processed.then ->
         $scope.build_list()
 ]
 
