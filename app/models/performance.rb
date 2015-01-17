@@ -12,7 +12,8 @@ class Performance < ActiveRecord::Base
   end
 
   def decimal_time
-    time.hour.to_i + (1 / (time.min / 60))
+    return time.hour.to_f if time.min == 0
+    time.hour.to_f + (1 / (60.0 / time.min.to_f))
   end
 
 end
