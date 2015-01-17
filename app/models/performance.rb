@@ -11,4 +11,8 @@ class Performance < ActiveRecord::Base
     "%02d:%02d" % [time.hour, time.min]
   end
 
+  def decimal_time
+    time.hour.to_i + (1 / (time.min / 60))
+  end
+
 end
