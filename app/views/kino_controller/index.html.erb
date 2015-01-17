@@ -13,11 +13,10 @@
   </div>
   <div class="col-md-9 col-lg-9" id="list_of_movies">
     <div class="row" ng-repeat="cinema in cinemas">
-     <h2 id="{{cinema.name.replace('London - ', '')}}" ng-show="count_performances_in_cinema(cinema.id) > 0"> {{ cinema.name }}
-     </h2>
-     <h5 ng-show="count_performances_in_cinema(cinema.id) > 0" >from home: {{cinema.traffic_info.duration.text}}, {{cinema.traffic_info.distance.text}}</h5>
+      <h2 id="cinema{{cinema.id }}">{{ cinema.name }}</h2>
+
      <div class="row film"
-     ng-repeat="film in film_in_cinema(cinema.id) | filter:filter_watched | filter:filter.search"
+     ng-repeat="(film_id, pfilm) in cinema.films"
      ng-controller="FilmController"
      ng-class-odd="'odd'"
      >
@@ -32,12 +31,12 @@
    <!-- performances -->
    <div class="performances_and_plot col-md-8">
     <a href="{{ film.film_url}}" class="filmtitle">{{film.title}}</a>
-    <span ng-if="film.review.length != ''">{{ film.review.length }}",</span>
-    <span ng-if="film.review.rating != ''">{{ film.review.rating}}/10.0</span>
+    <span ng-if="film.review">{{ film.review['length'] }}",</span>
+    <span ng-if="film.review.rating">{{ film.review.rating}}/10.0</span>
     <p>
       <a
       class="badge"
-      ng-repeat="performance in film.performances[cinema.id]"
+      ng-repeat="performance in pfilm.performances"
       ng-href="{{ performance.booking_url }}">
       {{performance.short_time}}
       </a>
@@ -64,7 +63,7 @@
 </div> <!-- end of list of movies pane -->
 
 <div class="col-md-3 col-lg-3" id="navbar-wrapper"> <!--  navbar on right -->
-     <div class="rightmenu affix"  ng-hide="cinemas_loading || films_loading">
+  <div class="rightmenu affix">
       <p>
         <input type="search" ng-model="filter.search" name="film_filter" id="inputFilm_filter" class="form-control" value="" placeholder="Filter...">
       </p>
@@ -75,11 +74,6 @@
         data-toggle="button">
         display watched
         </button>
-      </p>
-      <p>
-        <ul class="list-group">
-        <li class="list-group-item" ng-repeat="cinema in cinemas"><small>{{ cinema.short_name }}</small><span class='badge'>{{ cinema.traffic_info.duration.text}}</span></li>
-        </ul>
       </p>
       </div> <!-- end of navbar -->
 </div> <!-- end of navbar -->

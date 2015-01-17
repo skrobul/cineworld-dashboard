@@ -6,69 +6,84 @@
 cinemaApp = angular.module 'Cinema', ['ngResource']
     # configuration handler
 
-cinemaApp.factory 'Cinema', ["$resource", ($resource) ->
-    $resource('/cinemas', {}, {
-            update: { method: 'PUT' },
-        })
-]
+cinemaApp.factory 'Cinema', ["$http", ($http) ->
+  return {
+    query: ->
+      $http.get '/cinemas'
+  }]
+cinemaApp.factory 'Film', ['$http', ($http) ->
+  return {
+    query: ->
+      $http.get '/films.json'
+  }]
 
-cinemaApp.factory 'Film', ["$resource", ($resource) ->
-    $resource('/films/:id.json', { id:'@id'},
-    {
-        update:
-            method: 'PUT'
-    })
-]
+# cinemaApp.factory 'Film', ["$resource", ($resource) ->
+#     $resource('/films/:id.json', { id:'@id'},
+#     {
+#         update:
+#             method: 'PUT'
+#     })
+# ]
 
 
-cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', ($scope, Cinema, Film) ->
+cinemaApp.controller 'CinemaController', ['$scope', 'Cinema', 'Film', '$q', '$http', ($scope, Cinema, Film, $q, $http) ->
     $scope.cinemas_loading = true
     $scope.films_loading = true
-    $scope.init = () ->
-        #@cinemaService = new Cinema()
-        $scope.cinemas = Cinema.query ->
-            $scope.cinemas_loading = false
-        $scope.films = Film.query ->
-            $scope.films_loading = false
+    $scope.show_watched = false
 
+    process_results = (results) ->
+      $scope.cinemasData = results[0]
+      $scope.filmsData = results[1]
+      $scope.build_list()
 
+    $scope.build_list = ->
+      $scope.films = {}
+      for film in  $scope.filmsData.data
+        $scope.films[film.id] = film
 
-        # $scope.cinemas = Cinema.query()
-        # $scope.films = Film.query()
-        $scope.show_long_plot = false
-        $scope.perfcount = {}
-        $scope.plot_button = "more..."
-    $scope.init()
-    $scope.film_in_cinema = (cinema_id) ->
-        films = []
-        $scope.films.forEach (film) ->
-            local_performances = []
-            film.performances.forEach (performance) ->
-                if performance.cinema_id == cinema_id
-                    local_performances.push(performance)
-            if local_performances.length > 0
-                film.performances[cinema_id] = local_performances
-                films.push(film)
-        films
-    $scope.count_performances_in_cinema = (cinema_id) ->
-        return $scope.perfcount[cinema_id] if $scope.perfcount[cinema_id]
-        pcount = 0
-        $scope.films.forEach (film) ->
-            film.performances.forEach (perf) ->
-                pcount++ if perf.cinema_id == cinema_id
-        $scope.perfcount[cinema_id] = pcount
-        pcount
+      $scope.cinemas = {}
+      # build initial cinemas list
+      for cinema in $scope.cinemasData.data
+        $scope.cinemas[cinema.id] =
+          id: cinema.id
+          name: cinema.short_name
+      # populate it with performances
+      for film_id, film of $scope.films
+        # ignore watched films if filter enabled
+        unless $scope.show_watched || ! $scope.films[film_id].watched
+          continue
 
-    $scope.filter_watched = (element) ->
-        if $scope.show_watched
-            return true
-        else
-            return ! element.watched
+        for performance in film.performances
+          curr_cinema_id = performance.cinema_id
+          curr_cinema = $scope.cinemas[curr_cinema_id]
+          curr_cinema.films = {} unless curr_cinema.films?
+          curr_cinema.films[film_id] = {} unless curr_cinema.films[film_id]?
+          c_film = curr_cinema.films[film.id]
+          c_film.performances = [] unless c_film.performances?
+          c_film.performances.push performance
+
+      $scope.cinemas_loading = false
+      $scope.films_loading = false
+
+    log_error = (err) -> console.error err
+
+    $scope.all_ready = $q.all [$http.get('/cinemas'), $http.get('/films.json')]
+    $scope.all_ready.then(process_results, log_error)
+
+    $scope.show_long_plot = false
+    $scope.perfcount = {}
+    $scope.plot_button = "more..."
+
+    $scope.$watch 'show_watched', ->
+      $scope.all_ready.then ->
+        $scope.build_list()
 ]
 
 
 
-cinemaApp.controller 'FilmController', ['$scope', 'Film', ($scope, Film) ->
+cinemaApp.controller 'FilmController', ['$scope', '$http', ($scope, $http) ->
+
+    $scope.film = $scope.films[$scope.film_id]
     $scope.init = ->
         $scope.plot_button = "more..."
         $scope.show_long_plot = false
@@ -82,7 +97,8 @@ cinemaApp.controller 'FilmController', ['$scope', 'Film', ($scope, Film) ->
             $scope.plot_button = "less..."
 
     $scope.save = ()->
-        $scope.film.$update()
+      $http.put "/films/#{$scope.film_id}",
+        watched: $scope.film.watched
 ]
 
 # Registers modal callbacks once populated
