@@ -15,7 +15,7 @@ namespace :youtube do
             next if review.film.nil?
             title = review.film.title.gsub(/\A(2|3)D - /, '')
             puts "Searching for trailer: #{title}"
-            video = @videos.where(q: "#{title} trailer", video_category_id: 44).first
+            video = @videos.where(q: "#{title} trailer", video_category_id: 44, region_code: 'GB').first
             if video
                 review.youtube_html = "http://www.youtube.com/v/#{video.id}&feature=youtube_gdata_player"
                 #puts "    HTML: #{review.youtube_html}"
