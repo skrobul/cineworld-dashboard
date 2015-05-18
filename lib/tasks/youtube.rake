@@ -3,8 +3,8 @@ require 'yaml'
 namespace :youtube do
     task :api => :environment do
         youtube_api_key = ENV['YOUTUBE_API_KEY'] || YAML::load(File.open("#{Rails.root}/config/api.yml"))["youtube_api_key"]
-        @youtube = YouTubeIt::Client.new(:dev_key => youtube_api_key)
-
+        Yt.configuration.api_key = youtube_api_key
+        @videos = Yt::Collections::Videos.new
     end
 
     desc "Download links to trailers on Youtube"
@@ -15,9 +15,9 @@ namespace :youtube do
             next if review.film.nil?
             title = review.film.title.gsub(/\A(2|3)D - /, '')
             puts "Searching for trailer: #{title}"
-            video = @youtube.videos_by(:query => "#{title} trailer", :max_results => 1).videos.first
+            video = @videos.where(q: "#{title} trailer", video_category_id: 44).first
             if video
-                review.youtube_html = video.embed_url
+                review.youtube_html = video.embed_html
                 #puts "    HTML: #{review.youtube_html}"
                 review.save
             end
