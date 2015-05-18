@@ -17,7 +17,7 @@ namespace :youtube do
             puts "Searching for trailer: #{title}"
             video = @videos.where(q: "#{title} trailer", video_category_id: 44).first
             if video
-                review.youtube_html = video.embed_html
+                review.youtube_html = "http://www.youtube.com/v/#{video.id}&feature=youtube_gdata_player"
                 #puts "    HTML: #{review.youtube_html}"
                 review.save
             end
